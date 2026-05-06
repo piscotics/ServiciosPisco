@@ -1,38 +1,141 @@
 <template>
   <div class="dashboard">
+
     <Sidebar />
+
     <div class="main">
+
       <Header />
-      <BarraOpciones />
-      <Barra />
+
+      <div class="top-bars">
+        <BarraOpciones />
+        <BarraBusqueda />
+      </div>
+
       <main class="content">
-        <InfoTitular />
-      
+
+        <section class="content-body">
+
+          <div class="form">
+
+        <!-- 🔵 STEP 1 -->
+        <div v-if="step === 1">
+          <div class="form-header">
+            DATOS TIPO DE SERVICIO Y TITULAR
+          </div>
+          <InfoServicios />
+        </div>
+
+        <!-- 🔵 STEP 2 -->
+        <div v-if="step === 2">
+          <div class="form-header">
+            INFORMACIÓN DEL CONTRATANTE DEL SERVICIO
+          </div>
+          <InfoTitular />
+        </div>
+
+        <!-- 🔵 STEP 3 -->
+        <div v-if="step === 3">
+          <div class="form-header">
+            INFORMACIÓN DEL FALLECIDO
+          </div>
+          <InfoFallecido v-model="form" />
+        </div>
+
+        <!-- 🔵 STEP 4 -->
+        <div v-if="step === 4">
+          <div class="form-header">
+            DATOS DEL FALLECIMIENTO
+          </div>
+          <InfoFallecimiento />
+        </div>
+
+        <!-- 🔥 BOTONES -->
+        <div class="actions">
+          <button v-if="step > 1" @click="prevStep">Atrás</button>
+
+          <button v-if="step < 4" @click="nextStep">
+            Siguiente
+          </button>
+
+          <button v-if="step === 4" @click="guardar">
+            Guardar
+          </button>
+        </div>
+
+</div>
+
+        </section>
+
       </main>
+
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import Header from '../layout/Cabecera.vue'
 import Sidebar from '../layout/Sidebar.vue'
-import Barra from '../layout/BarraBusqueda.vue'
+import BarraBusqueda from '../layout/BarraBusqueda.vue'
 import BarraOpciones from '../layout/BarraOpciones.vue'
-//import InfoServicios from '../components/FrmInfoServicios.vue'
+import InfoServicios from '../components/FrmInfoServicios.vue'
 import InfoTitular from '../components/FrmInfoTitular.vue'
+import InfoFallecido from '../components/FrmInfoFallecido.vue'
+import InfoFallecimiento from '../components/FrmInfoFallecimiento.vue'
 const listaServicios = ref([])
 
 onMounted(() => {
-  listaServicios.value = [
-    { id: 1, nombre: 'Agua', descripcion: 'Consulta y seguimiento del servicio de agua.' },
-    { id: 2, nombre: 'Luz', descripcion: 'Gestion del suministro electrico.' },
-    { id: 3, nombre: 'Internet', descripcion: 'Estado y soporte de conectividad.' }
-  ]
+
 })
+
+
+const step = ref(1)
+
+const nextStep = () => {
+  if (step.value < 4) {
+    step.value++
+  }
+}
+
+const prevStep = () => {
+  if (step.value > 1) {
+    step.value--
+  }
+}
+
+const form = ref({})
+
+const guardar = () => {
+  console.log('Datos finales:', form.value)
+}
 </script>
 
 <style scoped>
+
+.stepper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #cbd5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.step.active {
+  background: #1e3a8a;
+  color: white;
+}
+
 .dashboard {
   min-height: 100vh;
   background: var(--bg);
@@ -177,7 +280,62 @@ onMounted(() => {
   font-size: 12px;
   font-weight: 800;
 }
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
+/* 🔵 barra azul tipo sistema */
+.form-header {
+  background: #1e3a8a; /* azul fuerte */
+  color: white;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* secciones debajo del header */
+.form > *:not(.form-header):not(.actions) {
+  margin-bottom: 4px;
+}
+
+/* botón */
+.actions {
+  margin-top: 12px;
+}
+
+.actions button {
+  padding: 8px 16px;
+  background: #334155;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #1e293b;
+}
+.top-bars {
+  position: sticky;
+  top: 72px;
+  z-index: 900;
+
+  display: flex;
+  flex-direction: row; /* 🔥 antes column */
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 10px;
+  background: var(--bg);
+}
+.search-bar {
+  display: flex;
+  justify-content: flex-end;
+}
 @media (max-width: 780px) {
   .main {
     padding-left: 0;
@@ -209,5 +367,8 @@ onMounted(() => {
     grid-column: 2;
     width: fit-content;
   }
+
+
+  
 }
 </style>
