@@ -1,75 +1,121 @@
 <template>
   <aside class="sidebar">
-  
 
-    <nav class="tree-panel" aria-label="Menu principal">
- 
+    <nav class="tree-panel">
+
       <ul class="tree">
         <li>
-          <button class="node root" type="button" @click="toggle('pisco')">
-            <span class="chevron">{{ open.pisco ? 'v' : '>' }}</span>
+
+          <!-- PISCO -->
+          <button
+            class="node root"
+            :class="{ active: selected === 'Informacion' }"
+            @click="handlePisco"
+          >
+            <span class="chevron">
+              {{ open.pisco ? 'v' : '>' }}
+            </span>
+
             <span class="node-icon">PS</span>
-            <span class="node-text">PISCO</span>
+
+            <span class="node-text">
+              PISCO
+            </span>
           </button>
 
           <ul v-if="open.pisco" class="branch">
+
+            <!-- CONTRATOS -->
             <li>
-              <button class="node" type="button" @click="toggle('contratos')">
+              <button class="node" @click="toggle('contratos')">
                 <span class="chevron">{{ open.contratos ? 'v' : '>' }}</span>
                 <span class="node-icon">CS</span>
                 <span class="node-text">Contratos De Servicios</span>
               </button>
 
               <ul v-if="open.contratos" class="branch">
+
+                <!-- CONTRATO 1 -->
                 <li>
-                  <button class="node" type="button" @click="toggle('contrato1')">
+                  <button class="node" @click="toggle('contrato1')">
                     <span class="chevron">{{ open.contrato1 ? 'v' : '>' }}</span>
                     <span class="node-icon">05</span>
                     <span class="node-text">Contrato 0051</span>
                   </button>
 
                   <ul v-if="open.contrato1" class="branch">
+
+                    <!-- CONTRATO -->
                     <li>
-                      <button class="leaf active" type="button">
+                      <button
+                        class="leaf"
+                        :class="{ active: selected === 'Informacion' }"
+                        @click="selectComponent('Informacion')"
+                      >
                         <span class="leaf-dot"></span>
                         Contrato
                       </button>
                     </li>
+
+                    <!-- PRESTACION -->
                     <li>
-                      <button class="leaf" type="button">
+                      <button
+                        class="leaf"
+                        :class="{ active: selected === 'InfoServicios' }"
+                        @click="selectComponent('InfoServicios')"
+                      >
                         <span class="leaf-dot"></span>
                         Prestacion
                       </button>
                     </li>
+
                   </ul>
                 </li>
               </ul>
             </li>
 
+            <!-- EMPLEADOS -->
             <li>
-              <button class="leaf" type="button">
+              <button
+                class="leaf"
+                :class="{ active: selected === 'InfoServicios' }"
+                @click="selectComponent('InfoServicios')"
+              >
                 <span class="leaf-dot"></span>
                 Empleados
               </button>
             </li>
+
           </ul>
         </li>
       </ul>
+
     </nav>
   </aside>
 </template>
 
+
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+const emit = defineEmits(['change-component'])
+const selected = ref('ContratoComponent')
 
 const open = reactive({
   pisco: true,
   contratos: true,
   contrato1: true
 })
+const handlePisco = () => {
+  toggle('pisco')
+  selectComponent('Informacion')
+}
 
 const toggle = (key) => {
   open[key] = !open[key]
+}
+const selectComponent = (component) => {
+  selected.value = component
+  emit('change-component', component)
 }
 </script>
 

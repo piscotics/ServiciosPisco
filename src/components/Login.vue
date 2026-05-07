@@ -14,7 +14,7 @@
       <form @submit.prevent="login" class="login-form">
         <label>
           <span>Usuario</span>
-          <input v-model="usuario" type="text" placeholder="PISCO" required />
+          <input v-model="username" type="text" placeholder="PISCO" required />
         </label>
 
         <label>
@@ -33,17 +33,47 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
-const usuario = ref('')
+import {useUserStore} from '../stores/users.js'
+import userServices from '../services/user.services.js' 
+const username = ref('')
 const password = ref('')
 const error = ref('')
 const router = useRouter()
 
+const services = {
+  user: userServices
+}
+//const subdominio: 'localhost';
 const login = async () => {
-  if (usuario.value === 'PISCO' && password.value === '1234') {
+  //error.value = '',
+  //loading.value = true
+
+   try {
+
+    // 🔵 PETICIÓN AL BACKEND
+    const response = await userServices.Login(username.value, password.value)
+    console.log(response.data)
+
+    // 🔵 GUARDAR TOKEN
+    localStorage.setItem('token', response.data.token)
+
+    localStorage.setItem('user', JSON.stringify(response.data.user))
+
+    useUserStore().setUsuario(response.data.user) // Guardar datos del usuario en el store
+
+    // 🔵 REDIRECCIONAR
     router.push('/home')
-  } else {
-    error.value = 'Credenciales incorrectas'
+
+  } catch (err) {
+
+    console.log(err)
+
+    error.value =
+      err.response?.data?.message ||
+      'Credenciales incorrectas'
+
+  } finally {
+    //loading.value = false
   }
 }
 </script>

@@ -5,8 +5,14 @@ export default {
     return api.get('/usuarios')
   },
 
-  crearUsuario(data) {
-    return api.post('/usuarios', data)
+  Login(username, password) {
+    
+    const dominio = window.location.hostname
+  .replace(/^www\./, '')
+  .split('.')[0];
+
+  const data = { username, password, subdominio: dominio.split('.')[0] }
+    return api.post('/api/users/login', data)
   },
 
   eliminarUsuario(id) {

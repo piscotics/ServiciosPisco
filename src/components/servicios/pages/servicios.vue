@@ -1,70 +1,20 @@
 <template>
   <div class="dashboard">
 
-    <Sidebar />
+    <Sidebar @change-component="currentComponent = $event" />
 
     <div class="main">
 
       <Header />
 
       <div class="top-bars">
-        <BarraOpciones />
-        <BarraBusqueda />
+     
       </div>
 
       <main class="content">
 
         <section class="content-body">
-
-          <div class="form">
-
-        <!-- 🔵 STEP 1 -->
-        <div v-if="step === 1">
-          <div class="form-header">
-            DATOS TIPO DE SERVICIO Y TITULAR
-          </div>
-          <InfoServicios />
-        </div>
-
-        <!-- 🔵 STEP 2 -->
-        <div v-if="step === 2">
-          <div class="form-header">
-            INFORMACIÓN DEL CONTRATANTE DEL SERVICIO
-          </div>
-          <InfoTitular />
-        </div>
-
-        <!-- 🔵 STEP 3 -->
-        <div v-if="step === 3">
-          <div class="form-header">
-            INFORMACIÓN DEL FALLECIDO
-          </div>
-          <InfoFallecido v-model="form" />
-        </div>
-
-        <!-- 🔵 STEP 4 -->
-        <div v-if="step === 4">
-          <div class="form-header">
-            DATOS DEL FALLECIMIENTO
-          </div>
-          <InfoFallecimiento />
-        </div>
-
-        <!-- 🔥 BOTONES -->
-        <div class="actions">
-          <button v-if="step > 1" @click="prevStep">Atrás</button>
-
-          <button v-if="step < 4" @click="nextStep">
-            Siguiente
-          </button>
-
-          <button v-if="step === 4" @click="guardar">
-            Guardar
-          </button>
-        </div>
-
-</div>
-
+          <component :is="components[currentComponent]" />
         </section>
 
       </main>
@@ -78,18 +28,20 @@
 import { ref, onMounted } from 'vue'
 import Header from '../layout/Cabecera.vue'
 import Sidebar from '../layout/Sidebar.vue'
+import Informacion from '../layout/Informacion.vue'
 import BarraBusqueda from '../layout/BarraBusqueda.vue'
 import BarraOpciones from '../layout/BarraOpciones.vue'
 import InfoServicios from '../components/FrmInfoServicios.vue'
-import InfoTitular from '../components/FrmInfoTitular.vue'
-import InfoFallecido from '../components/FrmInfoFallecido.vue'
-import InfoFallecimiento from '../components/FrmInfoFallecimiento.vue'
+//import InfoTitular from '../components/FrmInfoTitular.vue'
+//import InfoFallecido from '../components/FrmInfoFallecido.vue'
+//import InfoFallecimiento from '../components/FrmInfoFallecimiento.vue'
 const listaServicios = ref([])
 
-onMounted(() => {
-
-})
-
+const currentComponent = ref('ContratoComponent')
+const components = {
+  InfoServicios,
+  Informacion
+}
 
 const step = ref(1)
 

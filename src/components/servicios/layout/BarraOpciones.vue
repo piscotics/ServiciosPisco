@@ -1,96 +1,125 @@
 <template>
-    <div class="menu-bar">
-  
-      <!-- Item 1 -->
-      <div class="menu-item">
-        Archivo ▾
-        <div class="dropdown">
-          <div>Nuevo</div>
-          <div>Abrir</div>
-          <div>Guardar</div>
-        </div>
+  <div class="menu-bar">
+
+    <!-- Archivo -->
+    <div class="menu-item">
+      Archivo ▾
+
+      <div class="dropdown">
+        <div class="dropdown-item">Nuevo</div>
+        <div class="dropdown-item">Abrir</div>
+        <div class="dropdown-item">Guardar</div>
       </div>
-  
-      <!-- Item 2 -->
-      <div class="menu-item">
-        Contrato ▾
-        <div class="dropdown">
-          <div>Crear</div>
-          <div>Editar</div>
-          <div>Eliminar</div>
-        </div>
-      </div>
-  
-      <!-- Item 3 -->
-      <div class="menu-item">
-        Configuración ▾
-        <div class="dropdown">
-          <div>Usuarios</div>
-          <div>Permisos</div>
-          <div>Preferencias</div>
-        </div>
-      </div>
-  
-      <!-- Item 4 -->
-      <div class="menu-item">
-        Estadísticas ▾
-        <div class="dropdown">
-          <div>Reportes</div>
-          <div>Gráficas</div>
-          <div>Exportar</div>
-        </div>
-      </div>
-  
     </div>
-  </template>
-  
-  <style scoped>
-  
-  /* 🔥 barra horizontal */
-  .menu-bar {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* cada opción */
-  .menu-item {
-    position: relative;
-    padding: 8px 12px;
-    background: #f1f5f9;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  /* dropdown */
-  .dropdown {
-    position: absolute;
-    top: 40px;
-    left: 0;
-  
-    display: none;
-    flex-direction: column;
-  
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-  
-    min-width: 160px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  }
-  
-  /* 🔥 aparece SOLO el del item */
-  .menu-item:hover .dropdown {
-    display: flex;
-  }
-  
-  /* items */
-  .dropdown div {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .dropdown div:hover {
-    background: #f1f5f9;
-  }
-  </style>
+
+    <!-- Contrato -->
+    <div class="menu-item">
+      Contrato ▾
+
+      <div class="dropdown">
+        <div class="dropdown-item">Crear</div>
+        <div class="dropdown-item">Editar</div>
+        <div class="dropdown-item">Eliminar</div>
+      </div>
+    </div>
+
+    <!-- Configuración -->
+    <div class="menu-item">
+      Configuración ▾
+
+      <div class="dropdown">
+        <div class="dropdown-item">Usuarios</div>
+        <div class="dropdown-item">Permisos</div>
+        <div class="dropdown-item">Preferencias</div>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<style scoped>
+
+/* 🔥 barra */
+.menu-bar {
+  display: flex;
+  gap: 12px;
+}
+
+/* 🔥 item principal */
+.menu-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  height: 38px;
+  padding: 0 14px;
+
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+/* hover item */
+.menu-item:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* 🔥 dropdown */
+.dropdown {
+  position: absolute;
+  top: 48px;
+  left: 0;
+
+  min-width: 190px;
+
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.08),
+    0 4px 10px rgba(15, 23, 42, 0.04);
+
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+
+  transition: all 0.22s ease;
+
+  z-index: 999;
+}
+
+/* 🔥 aparece suave */
+.menu-item:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* items internos */
+.dropdown-item {
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #334155;
+
+  transition: all 0.15s ease;
+}
+
+/* hover bonito */
+.dropdown-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding-left: 18px;
+}
+
+</style>
