@@ -354,12 +354,3 @@ input:focus, select:focus {
   .span-2, .span-3 { grid-column: span 1; }
 }
 </style>
-
-**Mejoras aplicadas:**
-1.  **Jerarquía Visual:** He separado los datos por tarjetas (Cards) con bordes suaves, lo que ayuda al operador a concentrarse en una sección a la vez.
-2.  **Cuadrícula Responsiva:** En pantallas grandes usa 3 o 4 columnas, pero en móviles se apila automáticamente para que nunca falle la visualización.
-3.  **Micro-interacciones:** He sustituido los aburridos botones de opción por "Toggles" modernos para el COVID y Marca Pasos.
-4.  **Estética "Fresh":** He utilizado la paleta de colores de Indigo/Slate que es profesional y moderna, junto con la fuente **Inter** para máxima legibilidad.
-5.  **Todos los campos:** He mapeado cada detalle de la imagen original (incluyendo médico, causa de muerte, peso, talla, raza, etc.).
-
-¡Espero que este nuevo look le dé un toque increíble a tu aplicación! ¿Te gustaría ajustar algún color o detalle específico?

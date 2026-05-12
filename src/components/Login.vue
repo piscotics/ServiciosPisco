@@ -1,84 +1,285 @@
 <template>
   <div class="login-container">
+
     <section class="login-panel">
+
       <div class="brand">
         <span class="brand-mark">P</span>
+
         <div>
           <p class="eyebrow">Servicios Pisco</p>
           <h1>Bienvenido</h1>
         </div>
       </div>
 
-      <p class="subtitle">Ingresa tus credenciales para acceder al panel de servicios.</p>
+      <!-- LOGIN -->
+      <template v-if="step === 'login'">
 
-      <form @submit.prevent="login" class="login-form">
-        <label>
-          <span>Usuario</span>
-          <input v-model="username" type="text" placeholder="PISCO" required />
-        </label>
+        <p class="subtitle">
+          Ingresa tus credenciales para acceder al panel.
+        </p>
 
-        <label>
-          <span>Contrase&ntilde;a</span>
-          <input v-model="password" type="password" placeholder="Ingresa tu contrase&ntilde;a" required />
-        </label>
+        <form @submit.prevent="login" class="login-form">
 
-        <button type="submit">Ingresar</button>
-      </form>
+          <label>
+            <span>Usuario</span>
 
-      <p v-if="error" class="error-message">{{ error }}</p>
+            <input
+              v-model="username"
+              type="text"
+              placeholder="PISCO"
+              required
+            />
+          </label>
+
+          <label>
+            <span>Contraseña</span>
+
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Ingresa tu contraseña"
+              required
+            />
+          </label>
+
+          <button type="submit">
+            Ingresar
+          </button>
+
+        </form>
+
+        <button
+          class="link-button"
+          @click="step = 'forgot'"
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
+
+      </template>
+
+      <!-- RECUPERAR -->
+      <template v-if="step === 'forgot'">
+
+        <p class="subtitle">
+          Ingresa tu usuario para enviar el código.
+        </p>
+
+        <form
+          @submit.prevent="sendCode"
+          class="login-form"
+        >
+
+          <label>
+            <span>Usuario</span>
+
+            <input
+              v-model="recoveryUser"
+              type="text"
+              placeholder="Usuario"
+              required
+            />
+          </label>
+
+          <button type="submit">
+            Enviar código
+          </button>
+
+        </form>
+
+        <button
+          class="link-button"
+          @click="step = 'login'"
+        >
+          Volver al login
+        </button>
+
+      </template>
+
+      <!-- VALIDAR CÓDIGO -->
+      <template v-if="step === 'code'">
+
+        <p class="subtitle">
+          Ingresa el código enviado a tu correo.
+        </p>
+
+        <form
+          @submit.prevent="validateCode"
+          class="login-form"
+        >
+
+          <label>
+            <span>Código</span>
+
+            <input
+              v-model="code"
+              type="text"
+              placeholder="123456"
+              required
+            />
+          </label>
+
+          <button type="submit">
+            Validar código
+          </button>
+
+        </form>
+        
+        <button
+          class="link-button"
+          @click="step = 'login'"
+        >
+          Volver al login
+        </button>
+
+      </template>
+
     </section>
+
   </div>
 </template>
 
 <script setup>
+
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import {useUserStore} from '../stores/users.js'
-import userServices from '../services/user.services.js' 
-const username = ref('')
-const password = ref('')
-const error = ref('')
+import { useUserStore } from '../stores/users.js'
+import userServices from '../services/user.services.js'
+import Swal from 'sweetalert2'
+
 const router = useRouter()
 
-const services = {
-  user: userServices
-}
-//const subdominio: 'localhost';
+// LOGIN
+const username = ref('')
+const password = ref('')
+
+// RECUPERACIÓN
+const recoveryUser = ref('')
+const code = ref('')
+
+// CONTROL VISTAS
+const step = ref('login')
+
+// LOGIN
 const login = async () => {
-  //error.value = '',
-  //loading.value = true
 
-   try {
+  try {
 
-    // 🔵 PETICIÓN AL BACKEND
-    const response = await userServices.Login(username.value, password.value)
-    console.log(response.data)
+    const response = await userServices.Login(
+      username.value,
+      password.value
+    )
 
-    // 🔵 GUARDAR TOKEN
-    localStorage.setItem('token', response.data.token)
+    localStorage.setItem(
+      'token',
+      response.data.token
+    )
 
-    localStorage.setItem('user', JSON.stringify(response.data.user))
+    localStorage.setItem(
+      'user',
+      JSON.stringify(response.data.user)
+    )
 
-    useUserStore().setUsuario(response.data.user) // Guardar datos del usuario en el store
+    useUserStore().setUsuario(
+      response.data.user
+    )
 
-    // 🔵 REDIRECCIONAR
-    router.push('/home')
+    await Swal.fire({
+      icon: 'success',
+      title: 'Bienvenido',
+      text: `Hola ${response.data.user.nombre}`,
+      timer: 1800,
+      showConfirmButton: false
+    })
+
+   // router.push('/home')
+   router.push('/home?view=Informacion')
+    //router.push('/home?view=Usuarios')
 
   } catch (err) {
 
-    console.log(err)
-
-    error.value =
-      err.response?.data?.message ||
-      'Credenciales incorrectas'
-
-  } finally {
-    //loading.value = false
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text:
+        err.response?.data?.message ||
+        'Credenciales incorrectas'
+    })
   }
 }
-</script>
 
+// ENVIAR CÓDIGO
+const sendCode = async () => {
+
+  try {
+
+    // 🔵 PETICIÓN BACKEND
+    // await userServices.SendRecoveryCode(
+    //   recoveryUser.value
+    // )
+
+    await Swal.fire({
+      icon: 'success',
+      title: 'Código enviado',
+      text: 'Revisa tu correo electrónico'
+    })
+
+    step.value = 'code'
+
+  } catch (err) {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo enviar el código'
+    })
+  }
+}
+
+// VALIDAR CÓDIGO
+const validateCode = async () => {
+
+  try {
+
+    // 🔵 VALIDAR BACKEND
+    // await userServices.ValidateCode(
+    //   recoveryUser.value,
+    //   code.value
+    // )
+
+    await Swal.fire({
+      icon: 'success',
+      title: 'Código válido',
+      text: 'Ahora puedes cambiar tu contraseña'
+    })
+
+    // AQUÍ PUEDES MOSTRAR
+    // FORM NUEVA CONTRASEÑA
+
+  } catch (err) {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Código incorrecto'
+    })
+  }
+}
+
+</script>
 <style scoped>
+.link-button {
+  width: 100%;
+  margin-top: 14px;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
 .login-container {
   min-height: 100vh;
   display: grid;

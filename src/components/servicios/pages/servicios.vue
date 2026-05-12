@@ -7,13 +7,10 @@
 
       <Header />
 
-      <div class="top-bars">
-     
-      </div>
-
       <main class="content">
 
         <section class="content-body">
+      
           <component :is="components[currentComponent]" />
         </section>
 
@@ -25,25 +22,34 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import Header from '../layout/Cabecera.vue'
 import Sidebar from '../layout/Sidebar.vue'
 import Informacion from '../layout/Informacion.vue'
-import BarraBusqueda from '../layout/BarraBusqueda.vue'
-import BarraOpciones from '../layout/BarraOpciones.vue'
 import InfoServicios from '../components/FrmInfoServicios.vue'
-//import InfoTitular from '../components/FrmInfoTitular.vue'
-//import InfoFallecido from '../components/FrmInfoFallecido.vue'
-//import InfoFallecimiento from '../components/FrmInfoFallecimiento.vue'
-const listaServicios = ref([])
+import { useRoute } from 'vue-router'
 
+const listaServicios = ref([])
 const currentComponent = ref('ContratoComponent')
 const components = {
   InfoServicios,
   Informacion
 }
 
+ 
+const route = useRoute()
 const step = ref(1)
+
+watch(
+  () => route.query.view,
+  (view) => {
+    if (view && components[view]) {
+      currentComponent.value = view
+    }
+  },
+  { immediate: true }
+)
+
 
 const nextStep = () => {
   if (step.value < 4) {

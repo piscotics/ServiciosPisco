@@ -29,56 +29,56 @@
       <div class="user-wrapper">
         <div class="user" @click="showMenu = !showMenu">
           <span class="avatar">A</span>
-          <span>Admin</span>
+          <span> {{ user?.nombre || user?.username }}</span>
         </div>
 
         <div v-if="showMenu" class="menu">
           <div class="user-wrapper">
 
-    <div v-if="showMenu" class="">
+        <div v-if="showMenu" class="">
 
-      <div class="menu-bar">
+          <div class="menu-bar">
 
-        <div class="menu-item">
-          Archivo v
+            <div class="menu-item">
+              Archivo v
 
-          <div class="menu-dropdown">
-            <div class="dropdown-item">Nuevo</div>
-            <div class="dropdown-item">Abrir</div>
-            <div class="dropdown-item">Guardar</div>
-          </div>
+              <div class="menu-dropdown">
+                <div class="dropdown-item">Nuevo</div>
+                <div class="dropdown-item">Abrir</div>
+                <div class="dropdown-item">Guardar</div>
+              </div>
+            </div>
+
+            <div class="menu-item">
+              Contrato v
+
+              <div class="menu-dropdown">
+                <div class="dropdown-item">Crear</div>
+                <div class="dropdown-item">Editar</div>
+                <div class="dropdown-item">Eliminar</div>
+              </div>
+            </div>
+
+            <div class="menu-item">
+              Configuracion v
+
+              <div class="menu-dropdown">
+                <div class="dropdown-item">Usuarios</div>
+                <div class="dropdown-item">Permisos</div>
+                <div class="dropdown-item">Preferencias</div>
+              </div>
+            </div>
+
+            <!-- 🔴 CERRAR SESIÓN -->
+            <div class="menu-item logout" @click="logout">
+              Cerrar sesión
+            </div>
+
+      </div>
+
         </div>
 
-        <div class="menu-item">
-          Contrato v
-
-          <div class="menu-dropdown">
-            <div class="dropdown-item">Crear</div>
-            <div class="dropdown-item">Editar</div>
-            <div class="dropdown-item">Eliminar</div>
-          </div>
         </div>
-
-        <div class="menu-item">
-          Configuracion v
-
-          <div class="menu-dropdown">
-            <div class="dropdown-item">Usuarios</div>
-            <div class="dropdown-item">Permisos</div>
-            <div class="dropdown-item">Preferencias</div>
-          </div>
-        </div>
-
-        <!-- 🔴 CERRAR SESIÓN -->
-        <div class="menu-item logout" @click="logout">
-          Cerrar sesión
-        </div>
-
-  </div>
-
-</div>
-
-</div>
         </div>
       </div>
     </div>
@@ -86,20 +86,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,onMounted  } from 'vue'
 import BarraBusqueda from '../layout/BarraBusqueda.vue'
 import { useRouter } from 'vue-router'
 const showMenu = ref(false)
 const router = useRouter()
-
+const user = ref(null)
 const logout = () => {
-
 localStorage.removeItem('user')
 localStorage.removeItem('token')
-
 router.push('/')
-
 }
+
+onMounted(() => {
+
+const storedUser = localStorage.getItem('user')
+
+if (storedUser) {
+  user.value = JSON.parse(storedUser)
+}
+})
+
+
 
 </script>
 

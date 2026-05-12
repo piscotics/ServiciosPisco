@@ -7,17 +7,11 @@
         <li>
 
           <!-- PISCO -->
-          <button
-            class="node root"
-            :class="{ active: selected === 'Informacion' }"
-            @click="handlePisco"
-          >
+          <button class="node root" :class="{ active: selected === 'Informacion' }" @click="handlePisco">
             <span class="chevron">
               {{ open.pisco ? 'v' : '>' }}
             </span>
-
             <span class="node-icon">PS</span>
-
             <span class="node-text">
               PISCO
             </span>
@@ -33,44 +27,55 @@
                 <span class="node-text">Contratos De Servicios</span>
               </button>
 
-              <ul v-if="open.contratos" class="branch">
+            <ul v-if="open.contratos" class="branch">
 
-                <!-- CONTRATO 1 -->
+                <!-- CONTRATOS DINAMICOS -->
+             <li v-for="contrato in contratos" :key="contrato.id">
+
+              <button
+                class="node"
+                @click="toggle(contrato.idscontrato)"
+              >
+                <span class="chevron">
+                  {{ open[contrato.id] ? 'v' : '>' }}
+                </span>
+
+                <span class="node-text">
+                  Orden:{{ contrato.idscontrato }}
+                </span>
+              </button>
+
+              <!-- HIJOS -->
+              <ul v-if="open[contrato.idscontrato]" class="branch">
+
+                <!-- CONTRATO -->
                 <li>
-                  <button class="node" @click="toggle('contrato1')">
-                    <span class="chevron">{{ open.contrato1 ? 'v' : '>' }}</span>
-                    <span class="node-icon">05</span>
-                    <span class="node-text">Contrato 0051</span>
+                  <button
+                    class="leaf"
+                    :class="{ active: selected === `Informacion-${contrato.idscontrato}` }"
+                    @click="selectComponent('InfoServicios', contrato)"
+                  >
+                    <span class="leaf-dot"></span>
+                    Contrato
                   </button>
-
-                  <ul v-if="open.contrato1" class="branch">
-
-                    <!-- CONTRATO -->
-                    <li>
-                      <button
-                        class="leaf"
-                        :class="{ active: selected === 'Informacion' }"
-                        @click="selectComponent('Informacion')"
-                      >
-                        <span class="leaf-dot"></span>
-                        Contrato
-                      </button>
-                    </li>
-
-                    <!-- PRESTACION -->
-                    <li>
-                      <button
-                        class="leaf"
-                        :class="{ active: selected === 'InfoServicios' }"
-                        @click="selectComponent('InfoServicios')"
-                      >
-                        <span class="leaf-dot"></span>
-                        Prestacion
-                      </button>
-                    </li>
-
-                  </ul>
                 </li>
+
+                <!-- PRESTACION -->
+                <li>
+                  <button
+                    class="leaf"
+                    :class="{ active: selected === `InfoServicios-${contrato.idscontrato}` }"
+                    @click="selectComponent('InfoServicios', contrato)"
+                  >
+                    <span class="leaf-dot"></span>
+                    Prestacion
+                  </button>
+                </li>
+
+              </ul>
+
+              </li>
+
               </ul>
             </li>
 
@@ -96,15 +101,23 @@
 
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted  } from 'vue'
+import { storeToRefs } from 'pinia'
+//import ordenServicios from '../../../services/ordenServicios.js'
+import { useOrdenesStore } from '../../../stores/OrdenServicios/ordenStore.js'
+
 const emit = defineEmits(['change-component'])
 const selected = ref('ContratoComponent')
-
+//const contratos = ref([])
 const open = reactive({
   pisco: true,
   contratos: true,
   contrato1: true
 })
+const ordenesStore = useOrdenesStore()
+const { contratos, loading } = storeToRefs(ordenesStore)
+
+
 const handlePisco = () => {
   toggle('pisco')
   selectComponent('Informacion')
@@ -117,6 +130,18 @@ const selectComponent = (component) => {
   selected.value = component
   emit('change-component', component)
 }
+
+onMounted(async () => {
+
+await ordenesStore.cargarOrdenes(
+  '2026-03-01',
+  '2026-05-12'
+)
+
+})
+
+
+ 
 </script>
 
 <style scoped>
@@ -131,7 +156,18 @@ const selectComponent = (component) => {
   color: #e5e7eb;
   border-right: 1px solid rgba(189, 122, 122, 0.08);
   z-index: 1100;
+
+  overflow-y: auto;
 }
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+
 
 .sidebar-brand {
   display: flex;
