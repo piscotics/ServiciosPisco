@@ -1,25 +1,16 @@
 <template>
   <div class="dashboard">
-
     <Sidebar @change-component="currentComponent = $event" />
-
     <div class="main">
-
       <Header />
-
       <main class="content">
-
         <section class="content-body">
-      
           <component :is="components[currentComponent]" />
         </section>
-
       </main>
-
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, watch } from 'vue'
@@ -28,7 +19,6 @@ import Sidebar from '../layout/Sidebar.vue'
 import Informacion from '../layout/Informacion.vue'
 import InfoServicios from '../components/FrmInfoServicios.vue'
 import { useRoute } from 'vue-router'
-
 const listaServicios = ref([])
 const currentComponent = ref('ContratoComponent')
 const components = {
