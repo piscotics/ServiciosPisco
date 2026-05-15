@@ -6,45 +6,193 @@
             <i class="fa-solid fa-file-invoice"></i>
             <h2>Datos Tipo de Servicio</h2>
           </div>
-          <div class="grid-3">
-            <div class="field">
-              <label>Fecha Reporte</label>
-              <input type="date" v-model="model.fechaReporte" />
+
+    <div class="grid-4">
+        <div class="check-group">
+          <label class="check-item">
+            <input type="checkbox" v-model="model.anulada"/>
+            <span>Anulada</span>
+          </label>
+        </div>
+   <!-- CONV -->
+        <div class="field1">
+            <label>Tipo</label>
+            <select v-model="model.tipoAuxilio">
+              <option value="No Aplica">Convenio</option>
+              <option value="Ambulancia">Particular</option>
+              <option value="Domicilio">Afiliado CD</option>
+              <option value="Domicilio">Afiliado SD</option>
+            </select>
+          </div>
+          <!-- NO ORDEN -->
+          <div class="field">
+            <label>No Orden Servicio</label>
+            <input type="text" v-model="model.noOrdenServicio" />
+          </div>
+          <div class="fecha-hora-box">
+
+            <!-- FECHA -->
+            <div class="field compact">
+              <label>Fecha</label>
+              <input type="date" v-model="model.fecha" />
             </div>
-            <div class="field">
+
+            <!-- HORA -->
+            <div class="field compact">
               <label>Hora Reporte</label>
               <input type="time" v-model="model.horaReporte" />
             </div>
-            <div class="field">
-              <label>Tipo de Servicio</label>
-              <select v-model="model.tipoServicio">
-                <option value="Mascota">Mascota</option>
-                <option value="Humano">Humano</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Categoría</label>
-              <select v-model="model.categoria">
-                <option value="Individual">Individual</option>
-                <option value="Colectivo">Colectivo</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>¿Marca Paso?</label>
-              <div class="toggle-group">
-                <button @click="model.marcapaso = 'Si'" :class="{active: model.marcapaso === 'Si'}">Si</button>
-                <button @click="model.marcapaso = 'No'" :class="{active: model.marcapaso === 'No'}">No</button>
-              </div>
-            </div>
-            <div class="field">
-              <label>Estado COVID</label>
-              <div class="toggle-group">
-                <button @click="model.covid = 'Si'" :class="{active: model.covid === 'Si'}">Si</button>
-                <button @click="model.covid = 'No'" :class="{active: model.covid === 'No'}">No</button>
-              </div>
-            </div>
+
+            <!-- MARCAPASO -->
+        <div class="field marcapaso-box">
+          <label>MarcaPaso</label>
+
+          <div class="radio-group">
+            <label>
+              <input type="radio" value="No" v-model="model.marcapaso">
+              No
+            </label>
+
+            <label>
+              <input type="radio" value="Si" v-model="model.marcapaso">
+              Sí
+            </label>
           </div>
-        </section>
+        </div>
+
+        <!-- ESTADO -->
+        <div class="field estado-box">
+          <label>Estado</label>
+
+          <select v-model="model.estado">
+            <option value="Autorizado">Autorizado</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Anulado">Anulado</option>
+          </select>
+        </div>
+
+
+            </div>
+
+    <!-- REPORTE -->
+    <div class="field">
+      <label>Reporte</label>
+      <input type="time" v-model="model.reporte" />
+    </div>
+
+    <!-- TIPO AUXILIO -->
+    <div class="field">
+      <label>Tipo Auxilio</label>
+
+      <select v-model="model.tipoAuxilio">
+        <option value="No Aplica">No Aplica</option>
+        <option value="Ambulancia">Ambulancia</option>
+        <option value="Domicilio">Domicilio</option>
+      </select>
+    </div>
+
+ 
+  
+
+    <!-- COVID -->
+    <div class="field inline-check">
+      <label>Covid</label>
+
+      <div class="radio-group">
+        <label>
+          <input type="radio" value="No" v-model="model.covid">
+          No
+        </label>
+
+        <label>
+          <input type="radio" value="Si" v-model="model.covid">
+          Sí
+        </label>
+      </div>
+    </div>
+
+    <!-- FECHA APERTURA -->
+    <div class="field">
+      <label>Fecha Apertura</label>
+      <input type="date" v-model="model.fechaApertura" />
+    </div>
+
+    <!-- ESTADO -->
+    <div class="field">
+      <label>Estado</label>
+
+      <select v-model="model.estado">
+        <option value="Autorizado">Autorizado</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Anulado">Anulado</option>
+      </select>
+    </div>
+
+    <!-- VALOR RETORNO -->
+    <div class="field">
+      <label>Valor Retorno</label>
+      <input type="number" v-model="model.valorRetorno" />
+    </div>
+
+    <!-- POR QUIEN -->
+    <div class="field">
+      <label>Por Quien</label>
+      <input type="text" v-model="model.porQuien" />
+    </div>
+
+    <!-- SERVICIO -->
+    <div class="field">
+      <label>Servicio</label>
+      <input type="text" v-model="model.servicio" />
+    </div>
+
+    <!-- GRUPO CATEGORIA -->
+    <div class="field">
+      <label>Grupo Categoría</label>
+
+      <select v-model="model.grupoCategoria">
+        <option value="Empresarial">
+          Empresarial
+        </option>
+
+        <option value="Individual">
+          Individual
+        </option>
+      </select>
+    </div>
+
+    <!-- CATEGORIA SERVICIO -->
+    <div class="field">
+      <label>Categoría Servicio</label>
+
+      <select v-model="model.categoriaServicio">
+        <option value="Gerencial - Basico">
+          Gerencial - Básico
+        </option>
+
+        <option value="Premium">
+          Premium
+        </option>
+      </select>
+    </div>
+
+    <!-- TIPO SERVICIO -->
+    <div class="field">
+      <label>Tipo Servicio</label>
+
+      <select v-model="model.tipoServicio">
+        <option value="Periferia Completa">
+          Periferia Completa
+        </option>
+
+        <option value="Urbano">
+          Urbano
+        </option>
+      </select>
+    </div>
+
+  </div>
+</section>
   
         <section class="form-card accent-blue">
           <div class="card-header">
@@ -195,13 +343,17 @@
   }
   
   .form-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    width: 98%;
+  max-width: 1700px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   }
-  
+  .form-card{
+  overflow-x:auto;
+}
   /* HEADER STYLES */
   .form-header {
     display: flex;
@@ -280,9 +432,30 @@
   
   /* GRID SYSTEM */
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .grid-4{
+  display:grid;
+  grid-template-columns: repeat(6, minmax(180px, 1fr));
+  gap:16px;
+  align-items:start;
+}
   
-  .field { display: flex; flex-direction: column; gap: 6px; }
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  background-color: red;
+  left:-100px;
+  
+}
+.field1{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  background-color:blue;
+
+  position:relative;
+  left:-100px;
+}
   .span-2 { grid-column: span 2; }
   .span-3 { grid-column: span 3; }
   
@@ -353,4 +526,43 @@
     .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .span-2, .span-3 { grid-column: span 1; }
   }
+
+  .check-group{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:90px;
+  background-color: #6366f1;
+}
+
+.check-item{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.check-item input{
+  width:14px;
+  height:14px;
+  margin:0;
+}
+.fecha-hora-box{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  width:180px;
+}
+
+.compact label{
+  margin-bottom:2px;
+  font-size:12px;
+}
+
+.compact input{
+  height:34px;
+}
   </style>

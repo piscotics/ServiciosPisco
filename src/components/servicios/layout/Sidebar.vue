@@ -41,7 +41,7 @@
                 </span>
 
                 <span class="node-text">
-                  Orden:{{ contrato.idscontrato }}
+                  Contrato: {{ contrato.idscontrato }}
                 </span>
               </button>
 
@@ -105,7 +105,7 @@ import { reactive, ref, onMounted  } from 'vue'
 import { storeToRefs } from 'pinia'
 //import ordenServicios from '../../../services/ordenServicios.js'
 import { useOrdenesStore } from '../../../stores/OrdenServicios/ordenStore.js'
-
+import Swal from 'sweetalert2'
 const emit = defineEmits(['change-component'])
 const selected = ref('ContratoComponent')
 //const contratos = ref([])
@@ -133,12 +133,43 @@ const selectComponent = (component) => {
 
 onMounted(async () => {
 
-await ordenesStore.cargarOrdenes(
-  '2026-03-01',
-  '2026-05-12'
-)
+  Swal.fire({
+  title: 'Cargando órdenes...',
+  text: 'Por favor espera',
+  background: 'rgba(0,0,0,0.7)',
+  color: '#fff',
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+  showConfirmButton: false,
+  didOpen: () => {
+    Swal.showLoading()
+  }
+})
+
+try {
+
+  await ordenesStore.cargarOrdenes(
+    '2026-03-01',
+    '2026-05-12'
+  )
+
+} catch (error) {
+
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'No se pudieron cargar las órdenes'
+  })
+
+} finally {
+
+  Swal.close()
+
+}
 
 })
+
+
 
 
  
