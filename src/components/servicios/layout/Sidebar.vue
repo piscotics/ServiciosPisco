@@ -126,9 +126,29 @@ const handlePisco = () => {
 const toggle = (key) => {
   open[key] = !open[key]
 }
-const selectComponent = (component) => {
+const selectComponent1 = (component) => {
   selected.value = component
   emit('change-component', component)
+}
+
+const selectComponent2 = (component, contrato) => {
+  selected.value = component
+
+  emit('change-component', {
+    component,
+    idServicio: contrato.idservicio
+  })
+}
+
+const selectComponent = (component, contrato = null) => {
+
+selected.value = component
+
+emit('change-component', {
+  component,
+  idServicio: contrato?.idservicio ?? null
+})
+
 }
 
 onMounted(async () => {

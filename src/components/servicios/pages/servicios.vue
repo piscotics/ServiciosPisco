@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
-    <Sidebar @change-component="currentComponent = $event" />
+   <Sidebar @change-component="cambiarComponente" />
     <div class="main">
-      <Header />
+      <Header/>
       <main class="content">
         <section class="content-body">
           <component :is="components[currentComponent]" />
@@ -13,12 +13,15 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, reactive } from 'vue'
 import Header from '../layout/Cabecera.vue'
 import Sidebar from '../layout/Sidebar.vue'
 import Informacion from '../layout/Informacion.vue'
+//ACA SE CARGA DIGAMOS QUE ES SERVICIOS EN VISUAL BASIC
 import InfoServicios from '../components/FrmInfoServicios.vue'
+import ordenServicios from '../../../services/ordenServicios.js'
 import { useRoute } from 'vue-router'
+const model = reactive({})
 const listaServicios = ref([])
 const currentComponent = ref('ContratoComponent')
 const components = {
@@ -39,6 +42,26 @@ watch(
   },
   { immediate: true }
 )
+
+const cambiarComponente1 = async ({ component, idServicio }) => {
+
+currentComponent.value = component
+
+const { data } = await ordenServicios.cargarServicio(idServicio)
+
+Object.assign(model, data)
+}
+
+const cambiarComponente = async ({ component, idServicio }) => {
+
+currentComponent.value = component
+
+if (!idServicio) return
+
+const { data } = await ordenServicios.cargarServicio(idServicio)
+
+Object.assign(model, data)
+}
 
 
 const nextStep = () => {

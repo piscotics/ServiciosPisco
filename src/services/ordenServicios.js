@@ -10,5 +10,12 @@ export default {
       }
     })
   },
+  cargarServicio(id) {
+    return api.get(`/servicios/${id}`)
+  },
+
+  guardarServicio(data) {
+    return api.post('/servicios', data)
+  }
 
 }

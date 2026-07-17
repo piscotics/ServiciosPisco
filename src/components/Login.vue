@@ -145,6 +145,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/users.js'
 import userServices from '../services/user.services.js'
+import { startInactivityTimer } from '../utils/session.js' 
 import Swal from 'sweetalert2'
 
 const router = useRouter()
@@ -183,6 +184,8 @@ const login = async () => {
     useUserStore().setUsuario(
       response.data.user
     )
+
+    startInactivityTimer(router)
 
     await Swal.fire({
       icon: 'success',
