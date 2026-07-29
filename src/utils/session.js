@@ -1,7 +1,7 @@
 let timeout = null
 
-//const INACTIVITY_TIME = 15 * 60 * 1000 // 15 minutos
-const INACTIVITY_TIME = 10 * 1000
+const INACTIVITY_TIME = 15 * 60 * 1000 // 15 minutos
+//const INACTIVITY_TIME = 10 * 1000
 export const startInactivityTimer = (router) => {
 
   resetTimer(router)

@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
-   <Sidebar @change-component="cambiarComponente" />
+    <Sidebar @change-component="cambiarComponente" />
     <div class="main">
-      <Header/>
+      <Header />
       <main class="content">
         <section class="content-body">
           <component :is="components[currentComponent]" />
@@ -13,98 +13,55 @@
 </template>
 
 <script setup>
-import { ref, watch, reactive } from 'vue'
-import Header from '../layout/Cabecera.vue'
-import Sidebar from '../layout/Sidebar.vue'
-import Informacion from '../layout/Informacion.vue'
+import { ref, watch, reactive } from "vue";
+import Header from "../layout/Cabecera.vue";
+import Sidebar from "../layout/Sidebar.vue";
+import Informacion from "../layout/Informacion.vue";
+import ResumenOrden from "../layout/ResumenOrden.vue";
 //ACA SE CARGA DIGAMOS QUE ES SERVICIOS EN VISUAL BASIC
-import InfoServicios from '../components/FrmInfoServicios.vue'
-import ordenServicios from '../../../services/ordenServicios.js'
-import { useRoute } from 'vue-router'
-const model = reactive({})
-const listaServicios = ref([])
-const currentComponent = ref('ContratoComponent')
+import InfoServicios from "../components/FrmInfoServicios.vue";
+import OrdenServicio from "../components/Servicios/FrmPrestacionServicio.vue";
+import { useRoute } from "vue-router";
+const model = reactive({});
+const currentComponent = ref("ContratoComponent");
 const components = {
   InfoServicios,
-  Informacion
-}
-
- 
-const route = useRoute()
-const step = ref(1)
+  OrdenServicio,
+  Informacion,
+  ResumenOrden,
+};
+const route = useRoute();
 
 watch(
   () => route.query.view,
   (view) => {
     if (view && components[view]) {
-      currentComponent.value = view
+      currentComponent.value = view;
     }
   },
   { immediate: true }
-)
-
-const cambiarComponente1 = async ({ component, idServicio }) => {
-
-currentComponent.value = component
-
-const { data } = await ordenServicios.cargarServicio(idServicio)
-
-Object.assign(model, data)
-}
+);
 
 const cambiarComponente = async ({ component, idServicio }) => {
+  currentComponent.value = component;
 
-currentComponent.value = component
+  if (!idServicio) return;
 
-if (!idServicio) return
+  const { data } = await ordenServicios.cargarServicio(idServicio);
 
-const { data } = await ordenServicios.cargarServicio(idServicio)
+  Object.assign(model, data);
+};
 
-Object.assign(model, data)
-}
-
-
-const nextStep = () => {
-  if (step.value < 4) {
-    step.value++
-  }
-}
-
-const prevStep = () => {
-  if (step.value > 1) {
-    step.value--
-  }
-}
-
-const form = ref({})
-
-const guardar = () => {
-  console.log('Datos finales:', form.value)
-}
+const form = ref({});
 </script>
 
 <style scoped>
-
-.stepper {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.step {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #cbd5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.step.active {
-  background: #1e3a8a;
-  color: white;
+.form-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
 }
 
 .dashboard {
@@ -123,23 +80,6 @@ const guardar = () => {
   padding: 10px;
 }
 
-.content-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.section-label {
-  margin: 0 0 6px;
-  color: var(--primary-dark);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .content h2 {
   margin: 0;
   color: var(--text);
@@ -147,166 +87,6 @@ const guardar = () => {
   line-height: 1.15;
 }
 
-.view-chip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 0 12px;
-  border: 1px solid rgba(15, 118, 110, 0.18);
-  border-radius: var(--radius);
-  background: rgba(15, 118, 110, 0.08);
-  color: var(--primary-dark);
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.stats article {
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
-}
-
-.stats span {
-  display: block;
-  color: var(--primary-dark);
-  font-size: 28px;
-  font-weight: 900;
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-.stats p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.lista {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.lista li {
-  display: grid;
-  grid-template-columns: 48px 1fr auto;
-  align-items: center;
-  gap: 14px;
-  min-height: 78px;
-  padding: 15px 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.lista li:hover {
-  transform: translateY(-2px);
-  border-color: rgba(15, 118, 110, 0.35);
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
-}
-
-.service-icon {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius);
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  font-weight: 900;
-}
-
-.lista strong {
-  display: block;
-  color: var(--text);
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-
-.lista p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.status {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(15, 118, 110, 0.1);
-  color: var(--primary-dark);
-  font-size: 12px;
-  font-weight: 800;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* 🔵 barra azul tipo sistema */
-.form-header {
-  background: #1e3a8a; /* azul fuerte */
-  color: white;
-  font-weight: 800;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  letter-spacing: 0.5px;
-}
-
-/* secciones debajo del header */
-.form > *:not(.form-header):not(.actions) {
-  margin-bottom: 4px;
-}
-
-/* botón */
-.actions {
-  margin-top: 12px;
-}
-
-.actions button {
-  padding: 8px 16px;
-  background: #334155;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.actions button:hover {
-  background: #1e293b;
-}
-.top-bars {
-  position: sticky;
-  top: 72px;
-  z-index: 900;
-
-  display: flex;
-  flex-direction: row; /* 🔥 antes column */
-  align-items: center;
-  gap: 10px;
-
-  padding: 8px 10px;
-  background: var(--bg);
-}
-.search-bar {
-  display: flex;
-  justify-content: flex-end;
-}
 @media (max-width: 780px) {
   .main {
     padding-left: 0;
@@ -316,30 +96,5 @@ const guardar = () => {
   .content {
     padding: 88px 18px 24px;
   }
-
-  .content-header {
-    display: grid;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .view-chip {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .lista li {
-    grid-template-columns: 44px 1fr;
-  }
-
-  .status {
-    grid-column: 2;
-    width: fit-content;
-  }
-
-
-  
 }
 </style>

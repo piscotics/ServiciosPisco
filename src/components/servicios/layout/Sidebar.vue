@@ -1,81 +1,80 @@
 <template>
   <aside class="sidebar">
-
     <nav class="tree-panel">
-
       <ul class="tree">
         <li>
-
           <!-- PISCO -->
-          <button class="node root" :class="{ active: selected === 'Informacion' }" @click="handlePisco">
+          <button
+            class="node root"
+            :class="{ active: selected === 'Informacion' }"
+            @click="handlePisco"
+          >
             <span class="chevron">
-              {{ open.pisco ? 'v' : '>' }}
+              {{ open.pisco ? "v" : ">" }}
             </span>
             <span class="node-icon">PS</span>
-            <span class="node-text">
-              PISCO
-            </span>
+            <span class="node-text"> PISCO </span>
           </button>
 
           <ul v-if="open.pisco" class="branch">
-
             <!-- CONTRATOS -->
             <li>
               <button class="node" @click="toggle('contratos')">
-                <span class="chevron">{{ open.contratos ? 'v' : '>' }}</span>
+                <span class="chevron">{{ open.contratos ? "v" : ">" }}</span>
                 <span class="node-icon">CS</span>
                 <span class="node-text">Contratos De Servicios</span>
               </button>
 
-            <ul v-if="open.contratos" class="branch">
-
+              <ul v-if="open.contratos" class="branch">
                 <!-- CONTRATOS DINAMICOS -->
-             <li v-for="contrato in contratos" :key="contrato.id">
-
-              <button
-                class="node"
-                @click="toggle(contrato.idscontrato)"
-              >
-                <span class="chevron">
-                  {{ open[contrato.id] ? 'v' : '>' }}
-                </span>
-
-                <span class="node-text">
-                  Contrato: {{ contrato.idscontrato }}
-                </span>
-              </button>
-
-              <!-- HIJOS -->
-              <ul v-if="open[contrato.idscontrato]" class="branch">
-
-                <!-- CONTRATO -->
-                <li>
+                <li v-for="contrato in contratos" :key="contrato.id">
+          
                   <button
-                    class="leaf"
-                    :class="{ active: selected === `Informacion-${contrato.idscontrato}` }"
-                    @click="selectComponent('InfoServicios', contrato)"
+                    class="node"
+                    @click="seleccionarContrato(contrato)"
                   >
-                    <span class="leaf-dot"></span>
-                    Contrato
+                    <span class="chevron">
+                      {{ open[contrato.idscontrato] ? "v" : ">" }}
+                    </span>
+                    <span class="node-text">
+                      Contrato: {{ contrato.idscontrato }}
+                    </span>
                   </button>
+
+                  <!-- HIJOS -->
+                  <ul v-if="open[contrato.idscontrato]" class="branch">
+                    <!-- CONTRATO -->
+                    <li>
+                      <button
+                        class="leaf"
+                        :class="{
+                          active:
+                            selected === `Informacion-${contrato.idscontrato}`,
+                        }"
+                        @click="selectComponent('InfoServicios', contrato)"
+                      >
+                        <span class="leaf-dot"></span>
+                        Contrato
+                      </button>
+                    </li>
+
+                    <!-- PRESTACION -->
+                    <li>
+                      <button
+                        class="leaf"
+                        :class="{
+                          active:
+                            selected ===
+                            `InfoServicios-${contrato.idscontrato}`,
+                        }"
+                        @click="selectComponent('OrdenServicio', contrato)"
+                      >
+                        <span class="leaf-dot"></span>
+                        Prestacion
+                      </button>
+                    </li>
+                  </ul>
                 </li>
-
-                <!-- PRESTACION -->
-                <li>
-                  <button
-                    class="leaf"
-                    :class="{ active: selected === `InfoServicios-${contrato.idscontrato}` }"
-                    @click="selectComponent('InfoServicios', contrato)"
-                  >
-                    <span class="leaf-dot"></span>
-                    Prestacion
-                  </button>
-                </li>
-
-              </ul>
-
-              </li>
-
               </ul>
             </li>
 
@@ -90,110 +89,108 @@
                 Empleados
               </button>
             </li>
-
           </ul>
         </li>
       </ul>
-
     </nav>
   </aside>
 </template>
 
-
 <script setup>
-import { reactive, ref, onMounted  } from 'vue'
-import { storeToRefs } from 'pinia'
+import { reactive, ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 //import ordenServicios from '../../../services/ordenServicios.js'
-import { useOrdenesStore } from '../../../stores/OrdenServicios/ordenStore.js'
-import Swal from 'sweetalert2'
-const emit = defineEmits(['change-component'])
-const selected = ref('ContratoComponent')
+import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
+import Swal from "sweetalert2";
+const emit = defineEmits(["change-component"]);
+const selected = ref("ContratoComponent");
 //const contratos = ref([])
 const open = reactive({
   pisco: true,
   contratos: true,
-  contrato1: true
-})
-const ordenesStore = useOrdenesStore()
-const { contratos, loading } = storeToRefs(ordenesStore)
-
+  contrato1: true,
+});
+const ordenesStore = useOrdenesStore();
+const { contratos, loading } = storeToRefs(ordenesStore);
 
 const handlePisco = () => {
-  toggle('pisco')
-  selectComponent('Informacion')
-}
+  toggle("pisco");
+  selectComponent("Informacion");
+};
 
 const toggle = (key) => {
-  open[key] = !open[key]
-}
-const selectComponent1 = (component) => {
-  selected.value = component
-  emit('change-component', component)
-}
+  open[key] = !open[key];
+};
 
-const selectComponent2 = (component, contrato) => {
-  selected.value = component
+const selectComponent = async (component, contrato = null) => {
+  selected.value = component;
 
-  emit('change-component', {
+  if (contrato) {
+   // await ordenesStore.consultarContrato(contrato.idscontrato);
+  }
+
+  emit("change-component", {
     component,
-    idServicio: contrato.idservicio
-  })
-}
-
-const selectComponent = (component, contrato = null) => {
-
-selected.value = component
-
-emit('change-component', {
-  component,
-  idServicio: contrato?.idservicio ?? null
-})
-
-}
+    idServicio: contrato?.idservicio ?? null,
+    idContrato: contrato?.idscontrato ?? null,
+  });
+};
 
 onMounted(async () => {
-
   Swal.fire({
-  title: 'Cargando órdenes...',
-  text: 'Por favor espera',
-  background: 'rgba(0,0,0,0.7)',
-  color: '#fff',
-  allowOutsideClick: false,
-  allowEscapeKey: false,
-  showConfirmButton: false,
-  didOpen: () => {
-    Swal.showLoading()
+    title: "Cargando órdenes...",
+    text: "Por favor espera",
+    background: "rgba(0,0,0,0.7)",
+    color: "#fff",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  try {
+    await ordenesStore.cargarOrdenes("2026-03-01", "2026-05-12");
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar las órdenes",
+    });
+  } finally {
+    Swal.close();
   }
-})
+});
 
-try {
+const seleccionarContrato = async (contrato) => {
+  toggle(contrato.idscontrato);
 
-  await ordenesStore.cargarOrdenes(
-    '2026-03-01',
-    '2026-05-12'
-  )
+  // Consulta el contrato en el backend
+ // await ordenesStore.consultarContrato(contrato.idscontrato);
+ await ordenesStore.cargarOrdenIndividual(contrato.idscontrato);
+  // Cambia el componente
+  emit("change-component", {
+    component: "ResumenOrden",
+    idServicio: contrato.idservicio,
+    idContrato: contrato.idscontrato,
+  });
+};
 
-} catch (error) {
+const abrirContrato = async (contrato) => {
+  // Marca el componente seleccionado
+  selectComponent("InfoServicios", contrato)
 
-  Swal.fire({
-    icon: 'error',
-    title: 'Error',
-    text: 'No se pudieron cargar las órdenes'
-  })
-
-} finally {
-
-  Swal.close()
-
+  // Consulta la información del contrato
+  await ordenesStore.consultarContrato(contrato.idscontrato)
 }
 
-})
 
 
-
-
- 
 </script>
+
+
+
 
 <style scoped>
 .sidebar {
@@ -214,19 +211,7 @@ try {
   width: 6px;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-}
 
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 48px;
-  margin-bottom: 22px;
-}
 
 .sidebar-brand span {
   width: 40px;

@@ -1,15 +1,16 @@
 <template>
   <header class="header">
-    <BarraBusqueda />
+
 
     <div class="actions">
-      <div class="icon">🔍</div>
-      <div class="icon">🔔</div>
-      <div class="icon">📩</div>
-      <div class="icon">⚙️</div>
-      <div class="icon">📊</div>
-      <div class="icon">📁</div>
+      <div class="icon">📃</div> 
+      <div class="icon">💾</div>
+      <div class="icon">✏️</div>
+      <div class="icon">🖨️</div>
       <div class="icon">🧾</div>
+      <div class="icon">📩</div>
+
+  
 
       <!-- Grupo extra -->
       <div class="more">
@@ -25,7 +26,7 @@
           <div>⚡ Procesos</div>
         </div>
       </div>
-
+      <BarraBusqueda />
       <div class="user-wrapper">
         <div class="user" @click="showMenu = !showMenu">
           <span class="avatar">A</span>
