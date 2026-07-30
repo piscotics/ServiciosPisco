@@ -7,17 +7,17 @@
         <div class="field">
           <div>
             <label>*C.C. Contratante</label>
-            <input v-model="model.direccion" placeholder="1225412" />
+            <input v-model="contrato.cedulaafil" placeholder="1225412" />
           </div>
 
           <div>
             <label>*Contratante</label>
-            <input v-model="model.direccion" placeholder="Lomas Fecom" />
+            <input v-model="contrato.contratista" placeholder="Lomas Fecom" />
           </div>
 
           <div>
             <label>*Telefono</label>
-            <input v-model="model.direccion" type ="number"/>
+            <input v-model="contrato.telefonoafil" type ="number"/>
           </div>
 
          
@@ -25,7 +25,7 @@
          
           <div style="width: 150px;">
             <label>*Dirección</label>
-            <input v-model="model.direccion" type ="mail"/>
+            <input v-model="contrato.direccionafil" type ="mail"/>
           </div>
           <div style="width: 150px;">
             <label>Departamento</label>
@@ -46,18 +46,18 @@
        
           <div>
             <label>Fecha Nacimiento</label>
-            <input type="date" v-model="model.fechaReporte" />
+            <input type="date" v-model="contrato.fechanacimientot" />
           </div>
           <div>
             <label>Parentesco</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.parentesco">
               <option value="Canino">Padre</option>
               <option value="Felino">Madre</option>
             </select>
           </div>     
           <div>
             <label>*E Mail</label>
-            <input v-model="model.direccion" type ="mail"/>
+            <input v-model="contrato.mailafil" type ="mail"/>
           </div>    
         </div>
       </section>
@@ -66,15 +66,20 @@
     
    
     <script setup>
-   
-   
-
-    const model = defineModel()
-    
-       
+    import { computed } from "vue";
+    import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
        
     
-       </script>
+    const ordenesStore = useOrdenesStore();
+    
+    const contrato = computed(() => ordenesStore.contrato);
+    
+    const model = defineModel();
+       
+          
+          
+       
+          </script>
     
     <style scoped>
     /* ACA SE MODIFICO LA CARD DEL FONDO */

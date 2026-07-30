@@ -7,7 +7,7 @@
         <div class="field">
           <div>
             <label>Murio En:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.lugar_muerte">
               <option value="Canino">Clinica</option>
               <option value="Felino">Calle</option>
             </select>
@@ -15,70 +15,70 @@
 
           <div>
             <label>Direccion Fallecimiento:</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.tiempo_permanencia" />
           </div>
           <div>
             <label>*Fecha Muerte</label>
-            <input type="date" v-model="model.fechaReporte" />
+            <input type="date" v-model="contrato.fechamuerte" />
           </div>
           <div>
             <label>Hora</label>
-            <input type="time" v-model="model.horaReporte" />
+            <input type="time" v-model="contrato.hora_muerte" />
           </div>
           <div>
             <label>Tipo Muerte:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.causamuerte">
               <option value="Canino">Natural</option>
               <option value="Felino">Violenta</option>
             </select>
           </div> 
           <div>
             <label>Causa Muerte:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="contrato.causamuerte"  />
           </div>
           <div class="medico">
     <label>Medico Comprobó Muerte:</label>
-    <input v-model="model.direccion" />
+    <input v-model="contrato.medico" />
 </div>
         </div>
         <div class="field">    
           <div>
             <label>Preserv. del Cuerpo:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.preservacion">
               <option value="Canino">Especial</option>
               <option value="Felino">Ordinario</option>
             </select>
           </div> 
           <div>
             <label style="color: green;">Numero Licencia:</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.lic_inhumacion" />
           </div>
           <div>
             <label style="color: green;">R. Defunción:</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.registro" />
           </div>
           <div>
             <label style="color: green;">Notaria:</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.notaria" />
           </div>
           <div>
             <label style="color: green;">Fecha de Registro</label>
-            <input type="date" v-model="model.fechaReporte" />
+            <input type="date" v-model="contrato.fecharegistro" />
           </div>
           <div>
             <label style="color: green;">Fecha Llega Req</label>
-            <input type="date" v-model="model.fechaReporte" />
+            <input type="date" v-model="contrato.fechadigitaregistro" />
           </div>
           <div style="width: 120px;">
             <label style="color: green;">Certifi. Defunción:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="contrato.certificado"  />
           </div>
         
         </div>
         <div class="field">
           <div>
             <label >Paz y Salvo</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.pazysalvo" />
           </div>
           <div style="width: 180px;">
             <label>Ocupación del Difunto:</label>
@@ -112,28 +112,28 @@
      
           <div>
             <label>Departamento Fallecimiento:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.departamentofallecido">
               <option value="Canino">Cali</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div>
             <label>Municipio Fallecimiento</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.ciudadmuerte">
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div>
             <label>Como Llega el Servicio</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.llegadaservicio">
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div>
             <label>Otro:</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.llegadaserviciootro" />
           </div>
         </div>
         
@@ -143,15 +143,20 @@
        
    
        <script setup>
-   
-   
-
-       const model = defineModel()
-       
-          
+       import { computed } from "vue";
+       import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
           
        
-          </script>
+       const ordenesStore = useOrdenesStore();
+       
+       const contrato = computed(() => ordenesStore.contrato);
+       
+       const model = defineModel();
+          
+             
+             
+          
+             </script>
        
        <style scoped>
        /* ACA SE MODIFICO LA CARD DEL FONDO */

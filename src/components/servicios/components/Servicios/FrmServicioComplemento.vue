@@ -11,36 +11,36 @@
         <div class="field cartel">
           <div>
             <label>Sede</label>
-            <select >
+            <select v-model="contrato.sede" >
               <option value="Canino">Clinica</option>
               <option value="Felino">Calle</option>
             </select>
           </div>
 
           <div class="check">
-            <input type="checkbox" />
+            <input type="checkbox"  v-model="contrato.mostrarenpantalla"/>
             <label>Mostrar en Obituario</label>
           </div>
         </div>
 
         <div class="field cartel">
           <div class="check">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="contrato.optsala"/>
             <label>Salas Propias</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="contrato.optsala"/>
             <label>Salas Externas</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="contrato.optsala" />
             <label>Sin Sala</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="contrato.optsala" />
             <label>Pdte Sala</label>
           </div>
 
@@ -51,24 +51,24 @@
         <div class="dos-columnas">
           <div>
             <label>Lugar Velación</label>
-            <select>
+            <select v-model="contrato.sala" >
               <option>Clínica</option>
               <option>Calle</option>
             </select>
 
             <div>
               <label>Fecha de Velacion</label>
-              <input type="date" />
+              <input type="date" v-model="contrato.fechavelacion"  />
             </div>
           </div>
 
           <div>
             <label>Dirección Velación</label>
-            <input type="text" />
+            <input type="text" v-model="contrato.dirrecionvelacion" />
 
             <div>
               <label>Hora Estimada de Velacion</label>
-              <input type="time" />
+              <input type="time" v-model="contrato.horavelacion"  />
             </div>
           </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="dos-columnas2">
           <div>
             <label>Iglesia</label>
-            <select>
+            <select v-model="contrato.iglesia" >
               <option>Inmaculada</option>
               <option>catedral</option>
             </select>
@@ -87,7 +87,7 @@
         </div>
         <div class="campo-horizontal">
           <label>Otra:</label>
-          <input type="text" />
+          <input type="text" v-model="contrato.otra"  />
         </div>
 
         <!-- Continúas agregando el resto del formulario -->
@@ -95,14 +95,14 @@
         <div class="dos-columnas">
           <div class="campo-horizontal">
             <label>Ciudad</label>
-            <select>
+            <select v-model="contrato.ciudadcementerio" >
               <option>Pradera</option>
               <option>Cali</option>
             </select>
           </div>
           <div class="campo-horizontal">
             <label>Cementerio</label>
-            <select>
+            <select v-model="contrato.cementerio">
               <option>Ultimo Adios</option>
               <option>Recuerdo</option>
             </select>
@@ -113,11 +113,11 @@
           </div>
           <div class="campo-horizontal">
             <label>Hora Exeq</label>
-            <input type="time" />
+            <input type="time" v-model="contrato.horaexequia" />
           </div>
           <div class="campo-horizontal">
             <label>Dia Exq</label>
-            <input type="date" />
+            <input type="date" v-model="contrato.diaexequia"  />
           </div>
           <div class="check">
             <input type="checkbox" />
@@ -126,7 +126,7 @@
         </div>
         <div class="campo-horizontal">
           <label>Invitan:</label>
-          <input type="text" />
+          <input type="text" v-model="contrato.invitan" />
         </div>
 
         <div class="recuadro">
@@ -135,32 +135,32 @@
           <div class="dos-columnas">
             <div class="campo-horizontal">
               <label>Nombres:</label>
-              <input type="text" />
+              <input type="text" v-model="contrato.nomsuministrado"/>
             </div>
 
             <div class="campo-horizontal">
               <label>C.C:</label>
-              <input type="text" />
+              <input type="text" v-model="contrato.ccsuministrado"/>
             </div>
 
             <div class="campo-horizontal">
               <label>Dirección:</label>
-              <input type="text" />
+              <input type="text" v-model="contrato.dirsuministrado" />
             </div>
 
             <div class="campo-horizontal">
               <label>Tel:</label>
-              <input type="text" />
+              <input type="text" v-model="contrato.telsuministrado" />
             </div>
 
             <div class="campo-horizontal">
               <label>Empresa:</label>
-              <input type="text" />
+              <input type="text" v-model="contrato.empsuministrado" />
             </div>
 
             <div class="campo-horizontal">
               <label>Tel:</label>
-              <input type="text" />
+              <input type="text" v-model="contrato.telefonosuministrado" />
             </div>
           </div>
         </div>
@@ -361,8 +361,20 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
+   
+
+const ordenesStore = useOrdenesStore();
+
+const contrato = computed(() => ordenesStore.contrato);
+
 const model = defineModel();
-</script>
+   
+      
+      
+   
+      </script>
 
 <style scoped>
 /* ACA SE MODIFICO LA CARD DEL FONDO */

@@ -5,13 +5,19 @@
       <Header />
       <main class="content">
         <section class="content-body">
-          <component :is="components[currentComponent]" />
+          <div v-if="loading">
+       
+          </div>
+
+          <component
+            v-else
+            :is="components[currentComponent]"
+          />
         </section>
       </main>
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, watch, reactive } from "vue";
 import Header from "../layout/Cabecera.vue";
@@ -21,9 +27,14 @@ import ResumenOrden from "../layout/ResumenOrden.vue";
 //ACA SE CARGA DIGAMOS QUE ES SERVICIOS EN VISUAL BASIC
 import InfoServicios from "../components/FrmInfoServicios.vue";
 import OrdenServicio from "../components/Servicios/FrmPrestacionServicio.vue";
+import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
+//import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
 import { useRoute } from "vue-router";
+import Swal from "sweetalert2";
+const loading = ref(false);
 const model = reactive({});
 const currentComponent = ref("ContratoComponent");
+const ordenesStore = useOrdenesStore();
 const components = {
   InfoServicios,
   OrdenServicio,
@@ -31,7 +42,7 @@ const components = {
   ResumenOrden,
 };
 const route = useRoute();
-
+//const contrato = computed(() => ordenesStore.contrato);
 watch(
   () => route.query.view,
   (view) => {
@@ -42,17 +53,47 @@ watch(
   { immediate: true }
 );
 
-const cambiarComponente = async ({ component, idServicio }) => {
+const form = ref({});
+
+const cambiarComponente = async ({
+  component,
+  idServicio,
+  idContrato,
+}) => {
+
+  // Solo si viene un contrato nuevo
+  if (idContrato) {
+    loading.value = true;
+    Swal.fire({
+  title: "Cargando contrato...",
+  html: "<b>Consultando información...</b>",
+  background: "#1e293b",
+  color: "#fff",
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+  showConfirmButton: false,
+  didOpen: () => {
+    Swal.showLoading();
+  },
+});
+
+    try {
+      await ordenesStore.cargarOrdenIndividual(idContrato);
+    } finally {
+      loading.value = false;
+      Swal.close();
+    }
+  }
+
   currentComponent.value = component;
 
-  if (!idServicio) return;
-
-  const { data } = await ordenServicios.cargarServicio(idServicio);
-
-  Object.assign(model, data);
+  if (idServicio) {
+    const { data } = await ordenServicios.cargarServicio(idServicio);
+    Object.assign(model, data);
+  }
 };
 
-const form = ref({});
+
 </script>
 
 <style scoped>

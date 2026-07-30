@@ -51,7 +51,7 @@
                           active:
                             selected === `Informacion-${contrato.idscontrato}`,
                         }"
-                        @click="selectComponent('InfoServicios', contrato)"
+                        @click="selectComponent('InfoServicios')"
                       >
                         <span class="leaf-dot"></span>
                         Contrato
@@ -102,6 +102,7 @@ import { storeToRefs } from "pinia";
 //import ordenServicios from '../../../services/ordenServicios.js'
 import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
 import Swal from "sweetalert2";
+
 const emit = defineEmits(["change-component"]);
 const selected = ref("ContratoComponent");
 //const contratos = ref([])
@@ -124,11 +125,6 @@ const toggle = (key) => {
 
 const selectComponent = async (component, contrato = null) => {
   selected.value = component;
-
-  if (contrato) {
-   // await ordenesStore.consultarContrato(contrato.idscontrato);
-  }
-
   emit("change-component", {
     component,
     idServicio: contrato?.idservicio ?? null,
@@ -164,26 +160,26 @@ onMounted(async () => {
 });
 
 const seleccionarContrato = async (contrato) => {
-  toggle(contrato.idscontrato);
+  const estabaAbierto = open[contrato.idscontrato];
 
-  // Consulta el contrato en el backend
- // await ordenesStore.consultarContrato(contrato.idscontrato);
- await ordenesStore.cargarOrdenIndividual(contrato.idscontrato);
-  // Cambia el componente
-  emit("change-component", {
-    component: "ResumenOrden",
-    idServicio: contrato.idservicio,
-    idContrato: contrato.idscontrato,
+  // Cerrar todos
+  contratos.value.forEach(c => {
+    open[c.idscontrato] = false;
   });
+
+  // Si estaba cerrado, lo abrimos
+  if (!estabaAbierto) {
+    open[contrato.idscontrato] = true;
+
+  //  await ordenesStore.cargarOrdenIndividual(contrato.idscontrato);
+
+    emit("change-component", {
+      component: "ResumenOrden",
+      idServicio: contrato.idservicio,
+      idContrato: contrato.idscontrato,
+    });
+  }
 };
-
-const abrirContrato = async (contrato) => {
-  // Marca el componente seleccionado
-  selectComponent("InfoServicios", contrato)
-
-  // Consulta la información del contrato
-  await ordenesStore.consultarContrato(contrato.idscontrato)
-}
 
 
 

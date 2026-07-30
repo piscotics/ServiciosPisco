@@ -163,7 +163,16 @@ const step = ref('login')
 
 // LOGIN
 const login = async () => {
-
+  // Mostrar cargando
+  Swal.fire({
+    title: 'Iniciando sesión...',
+    text: 'Por favor espere',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
   try {
 
     const response = await userServices.Login(

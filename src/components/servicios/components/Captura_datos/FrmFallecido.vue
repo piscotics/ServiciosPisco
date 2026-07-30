@@ -7,32 +7,32 @@
         <div class="field">
           <div>
             <label>*No. Identif Fallecido</label>
-            <input v-model="model.direccion" placeholder="1225412" />
+            <input v-model="contrato.idfallecido" placeholder="1225412" />
           </div>
 
           <div>
             <label>Expedida En:</label>
-            <input v-model="model.direccion" placeholder="Lomas Fecom" />
+            <input v-model="contrato.lugarexpedicionced" placeholder="Lomas Fecom" />
           </div>
           <div>
             <label>Nombres Del Fallecido:</label>
-            <input v-model="model.direccion" placeholder="Lomas Fecom" />
+            <input v-model="contrato.nombre" placeholder="Lomas Fecom" />
           </div>
           <div class="span-2">
             <label>Apellidos del Fallecido:</label>
-            <input v-model="model.direccion" placeholder="Lomas Fecom" />
+            <input v-model="contrato.apellidos" placeholder="Lomas Fecom" />
           </div>
           <div>
             <label>Fecha de Expedicion</label>
-            <input type="date" v-model="model.fechaReporte" />
+            <input type="date" v-model="contrato.fechaexpedicion" />
           </div>
           <div  class="span-2">
             <label>Fecha de Nacimiento</label>
-            <input type="date" v-model="model.fechaReporte" />
+            <input type="date" v-model="contrato.fechanacimiento" />
           </div>
           <div>
             <label>*Telefono</label>
-            <input v-model="model.direccion" type ="number"/>
+            <input v-model="contrato.telefono" type ="number"/>
           </div>
           <div style="width: 100px;">
             <label>Años</label>
@@ -51,58 +51,58 @@
         <div class="field">
           <div>
             <label>Lugar de Nacimiento:</label>
-            <input v-model="model.direccion" />
+            <input v-model="contrato.lugar_nacimiento" />
           </div>
           <div>
             <label>Sexo:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.sexo">
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div>
             <label>Estado Civil:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.estado_civil">
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div>
             <label>Hijos:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="contrato.nohijos"  />
           </div>
           <div class="span-2">
             <label>Dirección de Residencia:</label>
-            <input v-model="model.direccion"/>
+            <input v-model="contrato.direccion"/>
           </div>
        
         </div>
         <div class="field">
           <div>
             <label>Ocupación del Difunto:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="contrato.ocupacion"  />
           </div>
           <div>
             <label>Grado:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.grado">
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div>
             <label>Nombre del Conyugue:</label>
-            <select v-model="model.especie">
+            <select v-model="contrato.conyuge">
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div class="span-2">
             <label>*Nombre del Padre:</label>
-            <input v-model="model.direccion"/>
+            <input v-model="contrato.padre"/>
           </div>
           <div class="span-2">
             <label>*Nombre dela Madre:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="contrato.madre"  />
           </div>
         </div>
       </section>
@@ -111,15 +111,20 @@
    
    
    <script setup>
+   import { computed } from "vue";
+   import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
+      
    
+   const ordenesStore = useOrdenesStore();
    
-
-const model = defineModel()
-
+   const contrato = computed(() => ordenesStore.contrato);
    
-   
-
-   </script>
+   const model = defineModel();
+      
+         
+         
+      
+         </script>
    
    <style scoped>
    /* ACA SE MODIFICO LA CARD DEL FONDO */

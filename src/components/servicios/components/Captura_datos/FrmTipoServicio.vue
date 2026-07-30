@@ -7,12 +7,12 @@
     <div class="field">
       <div>
         <label>*No. Orden Servicio</label>
-        <input v-model="model.direccion" placeholder="PA555441" />
+        <input v-model="contrato.idscontrato" placeholder="" />
       </div>
 
       <div>
         <label>*Contrato de Servicios</label>
-        <select v-model="model.especie">
+        <select v-model="model.horaReporte">
           <option value="Canino">Convenio</option>
           <option value="Felino">Particular</option>
           <option value="Otro">Afil CD</option>
@@ -21,7 +21,7 @@
 
       <div>
         <label>*Fecha</label>
-        <input type="date" v-model="model.fechaReporte" />
+        <input type="date" v-model="contrato.sfecha" />
       </div>
 
       <div>
@@ -61,11 +61,11 @@
       </div>
       <div>
         <label>*Valor Retorno</label>
-        <input v-model="model.direccion" placeholder="" />
+        <input v-model="contrato.valretorno" placeholder="" />
       </div>
       <div>
         <label>*Por Quien</label>
-        <input v-model="model.direccion" placeholder="" />
+        <input v-model="contrato.autorizadopor" placeholder="" />
       </div>
       <div>
         <label>*Ext</label>
@@ -126,11 +126,11 @@
     <div class="field">
       <div>
         <label>Nit Empresa</label>
-        <input v-model="model.direccion" placeholder="" />
+        <input v-model="contrato.nitempresaafil" placeholder="" />
       </div>
       <div style="width: 180px;">
         <label>Empresa</label>
-        <input v-model="model.direccion" placeholder="" />
+        <input v-model="contrato.empresaafil" placeholder="" />
       </div>
       <div>
         <label>*Fecha Afiliacion</label>
@@ -149,10 +149,15 @@
 
    
 <script setup>
-   
+import { computed } from "vue";
+import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
    
 
-   const model = defineModel()
+const ordenesStore = useOrdenesStore();
+
+const contrato = computed(() => ordenesStore.contrato);
+
+const model = defineModel();
    
       
       

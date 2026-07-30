@@ -10,7 +10,6 @@ const contrato = computed(() => ordenesStore.contrato);
 watch(
   contrato,
   (nuevo) => {
-    console.log("Contrato recibido:", nuevo);
   },
   { immediate: true }
 );
