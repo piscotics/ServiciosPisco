@@ -60,14 +60,14 @@
 
                     <!-- PRESTACION -->
                     <li>
-                      <button
+                      <button 
                         class="leaf"
                         :class="{
                           active:
                             selected ===
                             `InfoServicios-${contrato.idscontrato}`,
                         }"
-                        @click="selectComponent('OrdenServicio', contrato)"
+                        @click="selectPrestacion(contrato)"
                       >
                         <span class="leaf-dot"></span>
                         Prestacion
@@ -132,6 +132,8 @@ const selectComponent = async (component, contrato = null) => {
   });
 };
 
+
+
 onMounted(async () => {
   Swal.fire({
     title: "Cargando órdenes...",
@@ -161,7 +163,6 @@ onMounted(async () => {
 
 const seleccionarContrato = async (contrato) => {
   const estabaAbierto = open[contrato.idscontrato];
-
   // Cerrar todos
   contratos.value.forEach(c => {
     open[c.idscontrato] = false;
@@ -175,12 +176,19 @@ const seleccionarContrato = async (contrato) => {
 
     emit("change-component", {
       component: "ResumenOrden",
+      tipo: "contrato",
       idServicio: contrato.idservicio,
       idContrato: contrato.idscontrato,
     });
   }
 };
-
+const selectPrestacion = (contrato) => {
+  emit("change-component", {
+    component: "OrdenServicio",
+    tipo: "prestacion",
+    idServicio: contrato.idservicio,
+  });
+};
 
 
 </script>

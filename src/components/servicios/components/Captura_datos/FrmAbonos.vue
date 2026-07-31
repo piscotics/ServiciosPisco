@@ -398,8 +398,20 @@
 <script setup>
 import Botonera from "../../../../utils/Botones.vue";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { computed } from "vue";
+import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
 
 const model = defineModel();
+  
+const ordenesStore = useOrdenesStore();
+    
+const contrato = computed(() => ordenesStore.contrato);
+    
+
+
+
+
+
 </script>
 
 <style scoped>

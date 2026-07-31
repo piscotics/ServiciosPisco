@@ -29,9 +29,9 @@ export const useOrdenesStore = defineStore("ordenes", {
     },
 
 
-    async consultarContrato(idContrato) {
+    async cargarPrestacion(idContrato) {
       try {
-        const response = await ordenServicios.consultarContrato(idContrato);
+        const response = await ordenServicios.cargarPrestacion(idContrato);
         // Guardas la información
        // this.contrato = response.data;
        this.contrato = response.data[0];

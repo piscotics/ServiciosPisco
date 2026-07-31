@@ -6,9 +6,7 @@
       <main class="content">
         <section class="content-body">
           <div v-if="loading">
-       
           </div>
-
           <component
             v-else
             :is="components[currentComponent]"
@@ -55,7 +53,7 @@ watch(
 
 const form = ref({});
 
-const cambiarComponente = async ({
+const cambiarComponente2 = async ({
   component,
   idServicio,
   idContrato,
@@ -65,17 +63,17 @@ const cambiarComponente = async ({
   if (idContrato) {
     loading.value = true;
     Swal.fire({
-  title: "Cargando contrato...",
-  html: "<b>Consultando información...</b>",
-  background: "#1e293b",
-  color: "#fff",
-  allowOutsideClick: false,
-  allowEscapeKey: false,
-  showConfirmButton: false,
-  didOpen: () => {
-    Swal.showLoading();
-  },
-});
+    title: "Cargando contrato...",
+    html: "<b>Consultando información...</b>",
+    background: "#1e293b",
+    color: "#fff",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
 
     try {
       await ordenesStore.cargarOrdenIndividual(idContrato);
@@ -88,11 +86,92 @@ const cambiarComponente = async ({
   currentComponent.value = component;
 
   if (idServicio) {
-    const { data } = await ordenServicios.cargarServicio(idServicio);
+    const { data } = await ordenesStore.cargarServicio(idServicio);
     Object.assign(model, data);
   }
 };
 
+const cambiarComponentee = async ({
+  component,
+  idServicio,
+  idContrato,
+}) => {
+
+  if (idContrato || idServicio) {
+    loading.value = true;
+
+    Swal.fire({
+      title: "Cargando información...",
+      html: "<b>Consultando datos...</b>",
+      background: "#1e293b",
+      color: "#fff",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+
+      if (idContrato) {
+        await ordenesStore.cargarOrdenIndividual(idContrato);
+      }
+
+      if (idServicio) {
+        const { data } = await ordenServicios.cargarServicio(idServicio);
+        Object.assign(model, data);
+      }
+
+    } finally {
+      loading.value = false;
+      Swal.close();
+    }
+  }
+
+  currentComponent.value = component;
+};
+
+const cambiarComponente = async ({
+  component,
+  tipo,
+  idServicio,
+  idContrato,
+}) => {
+
+  if (tipo) {
+    loading.value = true;
+
+    Swal.fire({
+      title: "Cargando información...",
+      html: "<b>Consultando datos...</b>",
+      background: "#1e293b",
+      color: "#fff",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
+    try {
+
+      if (tipo === "contrato") {
+        await ordenesStore.cargarOrdenIndividual(idContrato);
+      }
+
+      if (tipo === "prestacion") {
+        await ordenesStore.cargarPrestacion(idServicio);
+      }
+
+    } finally {
+      loading.value = false;
+      Swal.close();
+    }
+  }
+
+  currentComponent.value = component;
+};
 
 </script>
 

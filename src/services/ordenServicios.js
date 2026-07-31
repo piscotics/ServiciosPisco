@@ -19,7 +19,7 @@ export default {
   },
 
 
-  consultarContrato(idContrato) {
+  cargarPrestacion(idContrato) {
     return api.get(`api/services/loadPrestacion/${idContrato}`);
 },
 
