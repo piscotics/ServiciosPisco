@@ -7,102 +7,102 @@
         <div class="field">
           <div>
             <label>*No. Identif Fallecido</label>
-            <input v-model="contrato.idfallecido" placeholder="1225412" />
+            <input v-model="contrato.idfallecido" :disabled="soloLectura" />
           </div>
 
           <div>
             <label>Expedida En:</label>
-            <input v-model="contrato.lugarexpedicionced" placeholder="Lomas Fecom" />
+            <input v-model="contrato.lugarexpedicionced" :disabled="soloLectura"  />
           </div>
           <div>
             <label>Nombres Del Fallecido:</label>
-            <input v-model="contrato.nombre" placeholder="Lomas Fecom" />
+            <input v-model="contrato.nombre" :disabled="soloLectura"  />
           </div>
           <div class="span-2">
             <label>Apellidos del Fallecido:</label>
-            <input v-model="contrato.apellidos" placeholder="Lomas Fecom" />
+            <input v-model="contrato.apellidos" :disabled="soloLectura" />
           </div>
           <div>
             <label>Fecha de Expedicion</label>
-            <input type="date" v-model="contrato.fechaexpedicion" />
+            <input type="date" v-model="contrato.fechaexpedicion" :disabled="soloLectura"  />
           </div>
           <div  class="span-2">
             <label>Fecha de Nacimiento</label>
-            <input type="date" v-model="contrato.fechanacimiento" />
+            <input type="date" v-model="contrato.fechanacimiento" :disabled="soloLectura"  />
           </div>
           <div>
             <label>*Telefono</label>
-            <input v-model="contrato.telefono" type ="number"/>
+            <input v-model="contrato.telefono" type ="number" :disabled="soloLectura" />
           </div>
           <div style="width: 100px;">
             <label>Años</label>
-            <input v-model="model.direccion"  />
+            <input v-model="model.direccion" :disabled="soloLectura"  />
           </div>
           <div style="width: 100px;">
             <label>Mes:</label>
-            <input v-model="model.direccion" />
+            <input v-model="model.direccion" :disabled="soloLectura" />
           </div>
           <div style="width: 100px;">
             <label>Dia:</label>
-            <input v-model="model.direccion" />
+            <input v-model="model.direccion" :disabled="soloLectura" />
           </div>
 
         </div>
         <div class="field">
           <div>
             <label>Lugar de Nacimiento:</label>
-            <input v-model="contrato.lugar_nacimiento" />
+            <input v-model="contrato.lugar_nacimiento" :disabled="soloLectura" />
           </div>
           <div>
             <label>Sexo:</label>
-            <select v-model="contrato.sexo">
+            <select v-model="contrato.sexo" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div>
             <label>Estado Civil:</label>
-            <select v-model="contrato.estado_civil">
+            <select v-model="contrato.estado_civil" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div>
             <label>Hijos:</label>
-            <input v-model="contrato.nohijos"  />
+            <input v-model="contrato.nohijos" :disabled="soloLectura"  />
           </div>
           <div class="span-2">
             <label>Dirección de Residencia:</label>
-            <input v-model="contrato.direccion"/>
+            <input v-model="contrato.direccion" :disabled="soloLectura" />
           </div>
        
         </div>
         <div class="field">
           <div>
             <label>Ocupación del Difunto:</label>
-            <input v-model="contrato.ocupacion"  />
+            <input v-model="contrato.ocupacion" :disabled="soloLectura"  />
           </div>
           <div>
             <label>Grado:</label>
-            <select v-model="contrato.grado">
+            <select v-model="contrato.grado" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div>
             <label>Nombre del Conyugue:</label>
-            <select v-model="contrato.conyuge">
+            <select v-model="contrato.conyuge" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div class="span-2">
             <label>*Nombre del Padre:</label>
-            <input v-model="contrato.padre"/>
+            <input v-model="contrato.padre" :disabled="soloLectura" />
           </div>
           <div class="span-2">
             <label>*Nombre dela Madre:</label>
-            <input v-model="contrato.madre"  />
+            <input v-model="contrato.madre" :disabled="soloLectura"  />
           </div>
         </div>
       </section>
@@ -118,7 +118,7 @@
    const ordenesStore = useOrdenesStore();
    
    const contrato = computed(() => ordenesStore.contrato);
-   
+   const soloLectura = computed(() => ordenesStore.modo === "consulta");
    const model = defineModel();
       
          

@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 //import ordenServicios from '../../../services/ordenServicios.js'
 import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
@@ -119,6 +119,16 @@ const handlePisco = () => {
   selectComponent("Informacion");
 };
 
+watch(
+  () => ordenesStore.abrirContratos,
+  (valor) => {
+    if (valor) {
+      toggle("contratos");
+      ordenesStore.abrirContratos = false;
+    }
+  }
+);
+
 const toggle = (key) => {
   open[key] = !open[key];
 };
@@ -131,9 +141,6 @@ const selectComponent = async (component, contrato = null) => {
     idContrato: contrato?.idscontrato ?? null,
   });
 };
-
-
-
 onMounted(async () => {
   Swal.fire({
     title: "Cargando órdenes...",
@@ -185,17 +192,13 @@ const seleccionarContrato = async (contrato) => {
 const selectPrestacion = (contrato) => {
   emit("change-component", {
     component: "OrdenServicio",
-    tipo: "prestacion",
     idServicio: contrato.idservicio,
   });
 };
 
 
+
 </script>
-
-
-
-
 <style scoped>
 .sidebar {
   position: fixed;

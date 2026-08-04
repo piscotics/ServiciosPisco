@@ -11,36 +11,36 @@
         <div class="field cartel">
           <div>
             <label>Sede</label>
-            <select v-model="contrato.sede" >
+            <select v-model="contrato.sede" :disabled="soloLectura">
               <option value="Canino">Clinica</option>
               <option value="Felino">Calle</option>
             </select>
           </div>
 
           <div class="check">
-            <input type="checkbox"  v-model="contrato.mostrarenpantalla"/>
+            <input type="checkbox"  v-model="contrato.mostrarenpantalla" :disabled="soloLectura"/>
             <label>Mostrar en Obituario</label>
           </div>
         </div>
 
         <div class="field cartel">
           <div class="check">
-            <input type="checkbox" v-model="contrato.optsala"/>
+            <input type="checkbox" v-model="contrato.optsala" :disabled="soloLectura"/>
             <label>Salas Propias</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" v-model="contrato.optsala"/>
+            <input type="checkbox" v-model="contrato.optsala" :disabled="soloLectura"/>
             <label>Salas Externas</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" v-model="contrato.optsala" />
+            <input type="checkbox" v-model="contrato.optsala" :disabled="soloLectura"/>
             <label>Sin Sala</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" v-model="contrato.optsala" />
+            <input type="checkbox" v-model="contrato.optsala" :disabled="soloLectura"/>
             <label>Pdte Sala</label>
           </div>
 
@@ -51,24 +51,24 @@
         <div class="dos-columnas">
           <div>
             <label>Lugar Velación</label>
-            <select v-model="contrato.sala" >
+            <select v-model="contrato.sala" :disabled="soloLectura" >
               <option>Clínica</option>
               <option>Calle</option>
             </select>
 
             <div>
               <label>Fecha de Velacion</label>
-              <input type="date" v-model="contrato.fechavelacion"  />
+              <input type="date" v-model="contrato.fechavelacion" :disabled="soloLectura" />
             </div>
           </div>
 
           <div>
             <label>Dirección Velación</label>
-            <input type="text" v-model="contrato.dirrecionvelacion" />
+            <input type="text" v-model="contrato.dirrecionvelacion" :disabled="soloLectura" />
 
             <div>
               <label>Hora Estimada de Velacion</label>
-              <input type="time" v-model="contrato.horavelacion"  />
+              <input type="time" v-model="contrato.horavelacion" :disabled="soloLectura" />
             </div>
           </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="dos-columnas2">
           <div>
             <label>Iglesia</label>
-            <select v-model="contrato.iglesia" >
+            <select v-model="contrato.iglesia" :disabled="soloLectura" >
               <option>Inmaculada</option>
               <option>catedral</option>
             </select>
@@ -87,7 +87,7 @@
         </div>
         <div class="campo-horizontal">
           <label>Otra:</label>
-          <input type="text" v-model="contrato.otra"  />
+          <input type="text" v-model="contrato.otra" :disabled="soloLectura" />
         </div>
 
         <!-- Continúas agregando el resto del formulario -->
@@ -95,14 +95,14 @@
         <div class="dos-columnas">
           <div class="campo-horizontal">
             <label>Ciudad</label>
-            <select v-model="contrato.ciudadcementerio" >
+            <select v-model="contrato.ciudadcementerio" :disabled="soloLectura" >
               <option>Pradera</option>
               <option>Cali</option>
             </select>
           </div>
           <div class="campo-horizontal">
             <label>Cementerio</label>
-            <select v-model="contrato.cementerio">
+            <select v-model="contrato.cementerio" :disabled="soloLectura">
               <option>Ultimo Adios</option>
               <option>Recuerdo</option>
             </select>
@@ -113,20 +113,20 @@
           </div>
           <div class="campo-horizontal">
             <label>Hora Exeq</label>
-            <input type="time" v-model="contrato.horaexequia" />
+            <input type="time" v-model="contrato.horaexequia" :disabled="soloLectura" />
           </div>
           <div class="campo-horizontal">
             <label>Dia Exq</label>
-            <input type="date" v-model="contrato.diaexequia"  />
+            <input type="date" v-model="contrato.diaexequia" :disabled="soloLectura"/>
           </div>
           <div class="check">
-            <input type="checkbox" />
+            <input type="checkbox" :disabled="soloLectura"/>
             <label>Pendiente Hora Exequias</label>
           </div>
         </div>
         <div class="campo-horizontal">
           <label>Invitan:</label>
-          <input type="text" v-model="contrato.invitan" />
+          <input type="text" v-model="contrato.invitan" :disabled="soloLectura" />
         </div>
 
         <div class="recuadro">
@@ -135,32 +135,32 @@
           <div class="dos-columnas">
             <div class="campo-horizontal">
               <label>Nombres:</label>
-              <input type="text" v-model="contrato.nomsuministrado"/>
+              <input type="text" v-model="contrato.nomsuministrado" :disabled="soloLectura"/>
             </div>
 
             <div class="campo-horizontal">
               <label>C.C:</label>
-              <input type="text" v-model="contrato.ccsuministrado"/>
+              <input type="text" v-model="contrato.ccsuministrado" :disabled="soloLectura"/>
             </div>
 
             <div class="campo-horizontal">
               <label>Dirección:</label>
-              <input type="text" v-model="contrato.dirsuministrado" />
+              <input type="text" v-model="contrato.dirsuministrado" :disabled="soloLectura"/>
             </div>
 
             <div class="campo-horizontal">
               <label>Tel:</label>
-              <input type="text" v-model="contrato.telsuministrado" />
+              <input type="text" v-model="contrato.telsuministrado" :disabled="soloLectura"/>
             </div>
 
             <div class="campo-horizontal">
               <label>Empresa:</label>
-              <input type="text" v-model="contrato.empsuministrado" />
+              <input type="text" v-model="contrato.empsuministrado" :disabled="soloLectura"/>
             </div>
 
             <div class="campo-horizontal">
               <label>Tel:</label>
-              <input type="text" v-model="contrato.telefonosuministrado" />
+              <input type="text" v-model="contrato.telefonosuministrado" :disabled="soloLectura"/>
             </div>
           </div>
         </div>
@@ -168,11 +168,11 @@
         <div class="dos-columnas">
           <div class="campo-horizontal">
             <label>Reportado Por:</label>
-            <input type="text" />
+            <input type="text" :disabled="soloLectura" />
           </div>
           <div class="campo-horizontal">
             <label>Bonif:</label>
-            <select>
+            <select :disabled="soloLectura">
               <option>Si</option>
               <option>No</option>
             </select>
@@ -180,7 +180,7 @@
         </div>
         <div class="campo-horizontal">
           <label>*Serv Atendido Por:</label>
-          <select>
+          <select :disabled="soloLectura">
             <option>Seleccione</option>
             <option>Vecino Miranda Jose Fernando</option>
             <option>Vecino Miranda Jose Fernando</option>
@@ -188,7 +188,7 @@
         </div>
         <div class="campo-horizontal">
           <label>*Asesor de Apoyo:</label>
-          <select>
+          <select :disabled="soloLectura">
             <option>Seleccione</option>
             <option>Vecino Miranda Jose Fernando</option>
             <option>Vecino Miranda Jose Fernando</option>
@@ -196,7 +196,7 @@
         </div>
         <div class="campo-horizontal">
           <label>*Coordinado Por:</label>
-          <select>
+          <select :disabled="soloLectura">
             <option>Seleccione</option>
             <option>Vecino Miranda Jose Fernando</option>
             <option>Vecino Miranda Jose Fernando</option>
@@ -204,7 +204,7 @@
         </div>
         <div class="campo-horizontal">
           <label>*Sala Atendida Por:</label>
-          <select>
+          <select :disabled="soloLectura">
             <option>Seleccione</option>
             <option>Vecino Miranda Jose Fernando</option>
             <option>Vecino Miranda Jose Fernando</option>
@@ -212,7 +212,7 @@
         </div>
         <div class="campo-horizontal">
           <label>Conductor Exequias:</label>
-          <select>
+          <select :disabled="soloLectura">
             <option>Seleccione</option>
             <option>Vecino Miranda Jose Fernando</option>
             <option>Vecino Miranda Jose Fernando</option>
@@ -220,7 +220,7 @@
         </div>
         <div class="campo-horizontal">
           <label>Carroza:</label>
-          <select>
+          <select :disabled="soloLectura">
             <option>Seleccione</option>
             <option>Si</option>
             <option>No</option>
@@ -232,11 +232,11 @@
       <div class="lado-derecho">
         <label>Plan del Servicio</label>
 
-        <select>
+        <select :disabled="soloLectura">
           <option>Cooserpark La Fe CR</option>
         </select>
 
-        <table class="tabla-servicios">
+        <table class="tabla-servicios" >
           <thead>
             <tr>
               <th width="40"></th>
@@ -298,21 +298,21 @@
         </table>
         <div class="campo-horizontal">
           <label>Cofre:</label>
-          <input type="text" />
+          <input type="text" :disabled="soloLectura"/>
         </div>
         <div class="campo-horizontal">
           <label>Tanatologo:</label>
-          <input type="text" />
+          <input type="text" :disabled="soloLectura"/>
         </div>
         <div class="campo-horizontal">
           <label>*Destino Final:</label>
-          <input type="text" />
+          <input type="text" :disabled="soloLectura" />
         </div>
         <div class="observaciones">
           <label>Observaciones:</label>
           <textarea
             rows="3"
-            placeholder="Escriba aquí las observaciones..."
+            placeholder="Escriba aquí las observaciones..." :disabled="soloLectura"
           ></textarea>
         </div>
 
@@ -320,38 +320,38 @@
           <label>Observaciones de Planilla:</label>
           <textarea
             rows="3"
-            placeholder="Escriba aquí las observaciones..."
+            placeholder="Escriba aquí las observaciones..." :disabled="soloLectura"
           ></textarea>
         </div>
 
         <div class="grupo-checks">
           <div class="check">
-            <input type="checkbox" id="fiador" />
+            <input type="checkbox" id="fiador" :disabled="soloLectura"/>
             <label for="fiador">Incluye Fiador</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" id="ramo" />
+            <input type="checkbox" id="ramo" :disabled="soloLectura"/>
             <label for="ramo">Ramo de Cortesía</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" id="cofre" />
+            <input type="checkbox" id="cofre" :disabled="soloLectura" />
             <label for="cofre">Sin Cofre</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" id="conformidad" />
+            <input type="checkbox" id="conformidad" :disabled="soloLectura"/>
             <label for="conformidad">Carta de Conformidad</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" id="urna" />
+            <input type="checkbox" id="urna" :disabled="soloLectura"/>
             <label for="urna">Sin Urna</label>
           </div>
 
           <div class="check">
-            <input type="checkbox" id="triangulo" />
+            <input type="checkbox" id="triangulo" :disabled="soloLectura"/>
             <label for="triangulo">Sin Triángulo</label>
           </div>
         </div>
@@ -368,6 +368,7 @@ import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js
 const ordenesStore = useOrdenesStore();
 
 const contrato = computed(() => ordenesStore.contrato);
+const soloLectura = computed(() => ordenesStore.modo === "consulta");
 
 const model = defineModel();
    

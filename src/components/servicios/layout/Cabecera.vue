@@ -3,15 +3,32 @@
 
 
     <div class="actions">
-      <div class="icon">📃</div> 
-      <div class="icon">💾</div>
-      <div class="icon">✏️</div>
+      <div
+        class="icon"
+        @click="nuevo"
+        :class="{ disabled: !puedeNuevo }"
+      >
+        📃
+      </div>
+
+      <div
+        class="icon"
+        @click="guardar"
+        :class="{ disabled: !puedeGuardar }"
+      >
+        💾
+      </div>
+
+      <div
+  class="icon"
+  @click="editar"
+  :style="{ pointerEvents: puedeEditar ? 'auto' : 'none', opacity: puedeEditar ? 1 : 0.4 }"
+>
+  ✏️
+</div>
       <div class="icon">🖨️</div>
       <div class="icon">🧾</div>
       <div class="icon">📩</div>
-
-  
-
       <!-- Grupo extra -->
       <div class="more">
         ⋯
@@ -87,17 +104,27 @@
 </template>
 
 <script setup>
-import { ref,onMounted  } from 'vue'
+import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
+import { ref,onMounted,computed  } from 'vue'
 import BarraBusqueda from '../layout/BarraBusqueda.vue'
+import servicios from '../layout/BarraBusqueda.vue'
 import { useRouter } from 'vue-router'
+const ordenStore = useOrdenesStore();
 const showMenu = ref(false)
 const router = useRouter()
 const user = ref(null)
+const emit = defineEmits(["change-component"]);
+const puedeEditar = computed(() => ordenStore.modo === "consulta");
+const puedeNuevo = computed(() => ordenStore.modo === "consulta");
+const puedeGuardar = computed(() =>
+  ordenStore.modo === "editar" || ordenStore.modo === "nuevo"
+)
 const logout = () => {
 localStorage.removeItem('user')
 localStorage.removeItem('token')
 router.push('/')
 }
+
 
 onMounted(() => {
 
@@ -107,12 +134,36 @@ if (storedUser) {
   user.value = JSON.parse(storedUser)
 }
 })
+const editar = () => {
+  if (!puedeEditar.value) return;
 
+  ordenStore.setEditar();
+};
+
+const nuevo = () => {
+  if (!puedeNuevo.value) return;
+
+  ordenStore.setNuevo();
+  ordenStore.limpiarContrato();
+  ordenStore.abrirArbolContratos();
+};
+
+const guardar = () => {
+  if (!puedeGuardar.value) return;
+
+  // Guardar...
+  ordenStore.setConsulta(); // vuelve a bloquear al terminar
+};
 
 
 </script>
 
 <style scoped>
+.icon.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
 .header {
   position: fixed;
   top: 0;

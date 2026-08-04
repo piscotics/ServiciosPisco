@@ -25,5 +25,8 @@ export default {
 
 cargarOrdenIndividual(idContrato) {
   return api.get(`/api/services/loadServicesByParam?dato=${idContrato}&parametro=ORDEN`);
-}
+},
+cargarAbonos(idContrato) {
+  return api.get(`api/pagos/loadPagosServicios/${idContrato}`);
+},
 }

@@ -7,7 +7,7 @@
         <div class="field">
           <div>
             <label>Murio En:</label>
-            <select v-model="contrato.lugar_muerte">
+            <select v-model="contrato.lugar_muerte" :disabled="soloLectura" >
               <option value="Canino">Clinica</option>
               <option value="Felino">Calle</option>
             </select>
@@ -15,96 +15,96 @@
 
           <div>
             <label>Direccion Fallecimiento:</label>
-            <input v-model="contrato.tiempo_permanencia" />
+            <input v-model="contrato.tiempo_permanencia" :disabled="soloLectura"  />
           </div>
           <div>
             <label>*Fecha Muerte</label>
-            <input type="date" v-model="contrato.fechamuerte" />
+            <input type="date" v-model="contrato.fechamuerte" :disabled="soloLectura" />
           </div>
           <div>
             <label>Hora</label>
-            <input type="time" v-model="contrato.hora_muerte" />
+            <input type="time" v-model="contrato.hora_muerte" :disabled="soloLectura" />
           </div>
           <div>
             <label>Tipo Muerte:</label>
-            <select v-model="contrato.causamuerte">
+            <select v-model="contrato.causamuerte" :disabled="soloLectura" >
               <option value="Canino">Natural</option>
               <option value="Felino">Violenta</option>
             </select>
           </div> 
           <div>
             <label>Causa Muerte:</label>
-            <input v-model="contrato.causamuerte"  />
+            <input v-model="contrato.causamuerte" :disabled="soloLectura"  />
           </div>
           <div class="medico">
     <label>Medico Comprobó Muerte:</label>
-    <input v-model="contrato.medico" />
+    <input v-model="contrato.medico" :disabled="soloLectura"  />
 </div>
         </div>
         <div class="field">    
           <div>
             <label>Preserv. del Cuerpo:</label>
-            <select v-model="contrato.preservacion">
+            <select v-model="contrato.preservacion" :disabled="soloLectura" >
               <option value="Canino">Especial</option>
               <option value="Felino">Ordinario</option>
             </select>
           </div> 
           <div>
             <label style="color: green;">Numero Licencia:</label>
-            <input v-model="contrato.lic_inhumacion" />
+            <input v-model="contrato.lic_inhumacion" :disabled="soloLectura" />
           </div>
           <div>
             <label style="color: green;">R. Defunción:</label>
-            <input v-model="contrato.registro" />
+            <input v-model="contrato.registro" :disabled="soloLectura" />
           </div>
           <div>
             <label style="color: green;">Notaria:</label>
-            <input v-model="contrato.notaria" />
+            <input v-model="contrato.notaria" :disabled="soloLectura" />
           </div>
           <div>
             <label style="color: green;">Fecha de Registro</label>
-            <input type="date" v-model="contrato.fecharegistro" />
+            <input type="date" v-model="contrato.fecharegistro" :disabled="soloLectura" />
           </div>
           <div>
             <label style="color: green;">Fecha Llega Req</label>
-            <input type="date" v-model="contrato.fechadigitaregistro" />
+            <input type="date" v-model="contrato.fechadigitaregistro" :disabled="soloLectura" />
           </div>
           <div style="width: 120px;">
             <label style="color: green;">Certifi. Defunción:</label>
-            <input v-model="contrato.certificado"  />
+            <input v-model="contrato.certificado"  :disabled="soloLectura" />
           </div>
         
         </div>
         <div class="field">
           <div>
             <label >Paz y Salvo</label>
-            <input v-model="contrato.pazysalvo" />
+            <input v-model="contrato.pazysalvo" :disabled="soloLectura"  />
           </div>
           <div style="width: 180px;">
             <label>Ocupación del Difunto:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="model.direccion"  :disabled="soloLectura" />
           </div>
           <div>
             <label>Grado:</label>
-            <select v-model="model.especie">
+            <select v-model="model.especie" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div style="width: 180px;">
             <label>Nombre del Conyugue:</label>
-            <select v-model="model.especie">
+            <select v-model="model.especie" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div style="width: 180px;">
             <label>*Nombre del Padre:</label>
-            <input v-model="model.direccion" />
+            <input v-model="model.direccion" :disabled="soloLectura" />
           </div>
           <div style="width: 180px;">
             <label>*Nombre dela Madre:</label>
-            <input v-model="model.direccion"  />
+            <input v-model="model.direccion" :disabled="soloLectura"  />
           </div>
         </div>
         <br><br>
@@ -112,28 +112,28 @@
      
           <div>
             <label>Departamento Fallecimiento:</label>
-            <select v-model="contrato.departamentofallecido">
+            <select v-model="contrato.departamentofallecido" :disabled="soloLectura" >
               <option value="Canino">Cali</option>
               <option value="Felino">Femenino</option>
             </select>
           </div>  
           <div>
             <label>Municipio Fallecimiento</label>
-            <select v-model="contrato.ciudadmuerte">
+            <select v-model="contrato.ciudadmuerte" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div>
             <label>Como Llega el Servicio</label>
-            <select v-model="contrato.llegadaservicio">
+            <select v-model="contrato.llegadaservicio" :disabled="soloLectura" >
               <option value="Canino">Masculino</option>
               <option value="Felino">Femenino</option>
             </select>
           </div> 
           <div>
             <label>Otro:</label>
-            <input v-model="contrato.llegadaserviciootro" />
+            <input v-model="contrato.llegadaserviciootro" :disabled="soloLectura"  />
           </div>
         </div>
         
@@ -150,7 +150,7 @@
        const ordenesStore = useOrdenesStore();
        
        const contrato = computed(() => ordenesStore.contrato);
-       
+       const soloLectura = computed(() => ordenesStore.modo === "consulta");
        const model = defineModel();
           
              

@@ -7,9 +7,22 @@ export const useOrdenesStore = defineStore("ordenes", {
     contrato: {},
     cargado: false,
     loading: false,
+    modo: "consulta",
+    abrirContratos: false,
   }),
 
   actions: {
+    setConsulta() {
+      this.modo = "consulta";
+    },
+
+    setEditar() {
+      this.modo = "editar";
+    },
+
+    setNuevo() {
+      this.modo = "nuevo";
+    },
     async cargarOrdenes(desde, hasta) {
       // 🔥 evita consultar otra vez
       if (this.cargado) return;
@@ -28,13 +41,10 @@ export const useOrdenesStore = defineStore("ordenes", {
       }
     },
 
-
     async cargarPrestacion(idContrato) {
       try {
         const response = await ordenServicios.cargarPrestacion(idContrato);
-        // Guardas la información
-       // this.contrato = response.data;
-       this.contrato = response.data[0];
+        this.contrato = response.data[0];
       } catch (error) {
         console.error(error);
       }
@@ -42,20 +52,31 @@ export const useOrdenesStore = defineStore("ordenes", {
 
     async cargarOrdenIndividual(idContrato) {
       try {
-        
         const response = await ordenServicios.cargarOrdenIndividual(idContrato);
-        
-        // Guardas la información
-       // this.contrato = response.data;
-       this.contrato = response.data[0];
+        this.contrato = response.data[0];
       } catch (error) {
         console.error(error);
       }
     },
 
-    limpiarOrdenes() {
-      this.contratos = [];
-      this.cargado = false;
+    async cargarAbonos(idContrato) {
+      try {
+        const response = await ordenServicios.cargarAbonos(idContrato);
+        this.abono = response.data[0];
+      } catch (error) {
+        console.error(error);
+      }
     },
+
+    limpiarContrato() {
+      Object.keys(this.contrato).forEach((key) => {
+        this.contrato[key] = "";
+      });
+    },
+    
+    abrirArbolContratos() {
+      this.abrirContratos = true;
+    }
+  
   },
 });

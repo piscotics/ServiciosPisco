@@ -7,12 +7,12 @@
     <div class="field">
       <div>
         <label>*No. Orden Servicio</label>
-        <input v-model="contrato.idscontrato" placeholder="" />
+        <input v-model="contrato.idscontrato" placeholder="" :disabled="soloLectura" />
       </div>
 
       <div>
         <label>*Contrato de Servicios</label>
-        <select v-model="model.horaReporte">
+        <select v-model="model.horaReporte " :disabled="soloLectura" >
           <option value="Canino">Convenio</option>
           <option value="Felino">Particular</option>
           <option value="Otro">Afil CD</option>
@@ -20,18 +20,18 @@
       </div>
 
       <div>
-        <label>*Fecha</label>
-        <input type="date" v-model="contrato.sfecha" />
+        <label>*Fecha</label> 
+        <input type="date" v-model="contrato.sfecha" :disabled="soloLectura" />
       </div>
 
       <div>
         <label>Hora Reporte</label>
-        <input type="time" v-model="model.horaReporte" />
+        <input type="time" v-model="model.horaReporte" :disabled="soloLectura"  />
       </div>
 
       <div>
         <label>*Marca Paso</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option value="Canino">Convenio</option>
           <option value="Felino">Particular</option>
         </select>
@@ -41,7 +41,7 @@
 
       <div>
         <label>*Fondo</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option value="Canino">Cali</option>
           <option value="Felino">Barranquilla</option>
           <option value="Otro">Otro</option>
@@ -55,37 +55,37 @@
     <div class="field">
       <div>
         <label>*Estado</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option value="Canino">Directo Fallecido</option>
         </select>            
       </div>
       <div>
         <label>*Valor Retorno</label>
-        <input v-model="contrato.valretorno" placeholder="" />
+        <input v-model="contrato.valretorno" placeholder="" :disabled="soloLectura" />
       </div>
       <div>
         <label>*Por Quien</label>
-        <input v-model="contrato.autorizadopor" placeholder="" />
+        <input v-model="contrato.autorizadopor" placeholder="" :disabled="soloLectura" />
       </div>
       <div>
         <label>*Ext</label>
-        <input v-model="model.direccion" placeholder="" />
+        <input v-model="model.direccion" placeholder="" :disabled="soloLectura"  />
       </div>
       <div>
         <label>Hora</label>
-        <input type="time" v-model="model.horaReporte" />
+        <input type="time" v-model="model.horaReporte" :disabled="soloLectura" />
       </div>
 
       <div>
         <label>*Tipo de Auxilio</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option value="Canino">Convenio</option>
           <option value="Felino">Particular</option>
         </select>
       </div>
       <div style="width: 100px;">
         <label>*Covid</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" > 
           <option value="Canino">Si</option>
           <option value="Felino">No</option>
 
@@ -96,49 +96,49 @@
     <div class="field">
       <div>
         <label style="color: red;">*Servicio (SC) </label>
-        <input v-model="model.direccion" placeholder="" />
+        <input v-model="model.direccion" placeholder="" :disabled="soloLectura" />
       </div>
       <div>
         <label style="color: red;">*Grupo Categoria</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option value="Canino">Directo</option>            
         </select>
       </div>
       <div >
         <label style="color: red;">*Categorias de Servicio</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option value="Canino">Particulares</option>          
         </select>
       </div>
      
       <div class="tipo-servicio">
         <label style="color:red;">*Tipos de Servicio</label>
-        <select v-model="model.especie">
+        <select v-model="model.especie" :disabled="soloLectura" >
           <option>Particulares</option>
         </select>
       </div>
       <div>
         <label>*Fecha Apertura</label>
-        <input type="date" v-model="model.fechaReporte" />
+        <input type="date" v-model="model.fechaReporte" :disabled="soloLectura" />
       </div>
     
     </div>
     <div class="field">
       <div>
         <label>Nit Empresa</label>
-        <input v-model="contrato.nitempresaafil" placeholder="" />
+        <input v-model="contrato.nitempresaafil" placeholder="" :disabled="soloLectura" />
       </div>
       <div style="width: 180px;">
         <label>Empresa</label>
-        <input v-model="contrato.empresaafil" placeholder="" />
+        <input v-model="contrato.empresaafil" placeholder="" :disabled="soloLectura" />
       </div>
       <div>
         <label>*Fecha Afiliacion</label>
-        <input type="date" v-model="model.fechaReporte" />
+        <input type="date" v-model="model.fechaReporte" :disabled="soloLectura" />
       </div>
       <div style="width: 180px;">
         <label>Tipo Plan</label>
-        <input type="text" v-model="model.direccion" placeholder="" />
+        <input type="text" v-model="model.direccion" placeholder="" :disabled="soloLectura" />
       </div>
     </div>
   </section>
@@ -149,17 +149,15 @@
 
    
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
-   
-
 const ordenesStore = useOrdenesStore();
 
 const contrato = computed(() => ordenesStore.contrato);
-
+const soloLectura = computed(() => ordenesStore.modo === "consulta");
 const model = defineModel();
-   
-      
+ 
+ 
       
    
       </script>

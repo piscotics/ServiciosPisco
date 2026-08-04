@@ -9,7 +9,7 @@
     <div class="dos-columnas">
       <div class="grupo-checks">
         <div class="check">
-          <input type="checkbox" id="fiador" />
+          <input type="checkbox" id="fiador"  />
           <label for="fiador">Convenio</label>
           <input type="checkbox" id="ramo" />
           <label for="ramo">Particular</label>
@@ -129,7 +129,11 @@
 <script setup>
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Abonos from "../Captura_datos/FrmAbonos.vue";
-//import Abonos from '../../FrmAbonos.vue'
+//import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
+//const ordenesStore = useOrdenesStore();
+
+//const contrato = computed(() => ordenesStore.contrato);
+//const soloLectura = computed(() => ordenesStore.modo === "consulta");
 const model = defineModel();
 </script>
 

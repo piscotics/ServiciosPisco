@@ -53,90 +53,9 @@ watch(
 
 const form = ref({});
 
-const cambiarComponente2 = async ({
-  component,
-  idServicio,
-  idContrato,
-}) => {
-
-  // Solo si viene un contrato nuevo
-  if (idContrato) {
-    loading.value = true;
-    Swal.fire({
-    title: "Cargando contrato...",
-    html: "<b>Consultando información...</b>",
-    background: "#1e293b",
-    color: "#fff",
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    showConfirmButton: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-
-    try {
-      await ordenesStore.cargarOrdenIndividual(idContrato);
-    } finally {
-      loading.value = false;
-      Swal.close();
-    }
-  }
-
-  currentComponent.value = component;
-
-  if (idServicio) {
-    const { data } = await ordenesStore.cargarServicio(idServicio);
-    Object.assign(model, data);
-  }
-};
-
-const cambiarComponentee = async ({
-  component,
-  idServicio,
-  idContrato,
-}) => {
-
-  if (idContrato || idServicio) {
-    loading.value = true;
-
-    Swal.fire({
-      title: "Cargando información...",
-      html: "<b>Consultando datos...</b>",
-      background: "#1e293b",
-      color: "#fff",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showConfirmButton: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-
-    try {
-
-      if (idContrato) {
-        await ordenesStore.cargarOrdenIndividual(idContrato);
-      }
-
-      if (idServicio) {
-        const { data } = await ordenServicios.cargarServicio(idServicio);
-        Object.assign(model, data);
-      }
-
-    } finally {
-      loading.value = false;
-      Swal.close();
-    }
-  }
-
-  currentComponent.value = component;
-};
-
 const cambiarComponente = async ({
   component,
   tipo,
-  idServicio,
   idContrato,
 }) => {
 
@@ -158,10 +77,12 @@ const cambiarComponente = async ({
 
       if (tipo === "contrato") {
         await ordenesStore.cargarOrdenIndividual(idContrato);
+        await ordenesStore.cargarAbonos(idContrato);
+        ordenesStore.setConsulta();
       }
 
       if (tipo === "prestacion") {
-        await ordenesStore.cargarPrestacion(idServicio);
+        //await ordenesStore.cargarPrestacion(idServicio);
       }
 
     } finally {

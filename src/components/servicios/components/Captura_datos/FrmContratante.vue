@@ -7,17 +7,17 @@
         <div class="field">
           <div>
             <label>*C.C. Contratante</label>
-            <input v-model="contrato.cedulaafil" placeholder="1225412" />
+            <input v-model="contrato.cedulaafil" :disabled="soloLectura"  />
           </div>
 
           <div>
             <label>*Contratante</label>
-            <input v-model="contrato.contratista" placeholder="Lomas Fecom" />
+            <input v-model="contrato.contratista" :disabled="soloLectura"  />
           </div>
 
           <div>
             <label>*Telefono</label>
-            <input v-model="contrato.telefonoafil" type ="number"/>
+            <input v-model="contrato.telefonoafil" type ="number" :disabled="soloLectura" />
           </div>
 
          
@@ -25,17 +25,17 @@
          
           <div style="width: 150px;">
             <label>*Dirección</label>
-            <input v-model="contrato.direccionafil" type ="mail"/>
+            <input v-model="contrato.direccionafil" type ="mail" :disabled="soloLectura" />
           </div>
           <div style="width: 150px;">
             <label>Departamento</label>
-            <select v-model="model.especie">
+            <select v-model="model.especie" :disabled="soloLectura" >
               <option value="Canino">Directo Fallecido</option>
             </select>
           </div>
           <div class="ciudad">
             <label>Ciudad</label>
-            <select v-model="model.especie">
+            <select v-model="model.especie" :disabled="soloLectura" >
               <option value="Canino">Directo Fallecido</option>
             </select>
           </div>
@@ -46,18 +46,18 @@
        
           <div>
             <label>Fecha Nacimiento</label>
-            <input type="date" v-model="contrato.fechanacimientot" />
+            <input type="date" v-model="contrato.fechanacimientot" :disabled="soloLectura"  />
           </div>
           <div>
             <label>Parentesco</label>
-            <select v-model="contrato.parentesco">
+            <select v-model="contrato.parentesco" :disabled="soloLectura" >
               <option value="Canino">Padre</option>
               <option value="Felino">Madre</option>
             </select>
           </div>     
           <div>
             <label>*E Mail</label>
-            <input v-model="contrato.mailafil" type ="mail"/>
+            <input v-model="contrato.mailafil" type ="mail" :disabled="soloLectura" />
           </div>    
         </div>
       </section>
@@ -73,6 +73,7 @@
     const ordenesStore = useOrdenesStore();
     
     const contrato = computed(() => ordenesStore.contrato);
+    const soloLectura = computed(() => ordenesStore.modo === "consulta");
     
     const model = defineModel();
        

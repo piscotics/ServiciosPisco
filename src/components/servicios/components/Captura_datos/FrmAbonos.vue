@@ -84,6 +84,7 @@
           <option value="Felino">Calle</option>
         </select>
       </div>
+      <!-- TABLA PARA EXCEDENCTES -->
       <div class="tabla-info">
         <table>
           <thead>
@@ -147,7 +148,7 @@
           </tbody>
         </table>
       </div>
-    
+    <!-- TERMINA TABLA PARA EXCEDENCTES -->
         <div class="check2">
         <input type="checkbox" id="cofre" />
         <label for="cofre">Quitar Facturas</label>
@@ -270,6 +271,7 @@
       <input type="text" />
     </div>
     <br />
+    <!-- TABLA ABONOS REALIZADOS -->
     <div class="cuatro-columnas">
       <div class="tabla-info">
         <table>
@@ -315,7 +317,7 @@
           </tbody>
         </table>
       </div>
-
+  <!-- TERMINA TABLA ABONOS REALIZADOS -->
       <div class="info-datos">
         <div class="check">
           <input type="checkbox" id="cofre" />
@@ -333,7 +335,7 @@
 
         <Botonera />
       </div>
-
+<!-- TABLA PAGOS REALIZADOS -->
       <div class="tabla-info">
         <table>
           <thead>
@@ -378,6 +380,7 @@
           </tbody>
         </table>
       </div>
+      <!-- TERMINA TABLA PAGOS REALIZADOS -->
     </div>
     <div class="cuatro-columnas">
       <div class="info-item">
@@ -405,8 +408,8 @@ const model = defineModel();
   
 const ordenesStore = useOrdenesStore();
     
-const contrato = computed(() => ordenesStore.contrato);
-    
+const abono = computed(() => ordenesStore.abono);
+const soloLectura = computed(() => ordenesStore.modo === "consulta");  
 
 
 
