@@ -9,6 +9,7 @@ export const useOrdenesStore = defineStore("ordenes", {
     loading: false,
     modo: "consulta",
     abrirContratos: false,
+    componenteActual: "Informacion",
   }),
 
   actions: {
@@ -29,9 +30,7 @@ export const useOrdenesStore = defineStore("ordenes", {
 
       try {
         this.loading = true;
-
         const response = await ordenServicios.getOrdenesServicio(desde, hasta);
-
         this.contratos = response.data;
         this.cargado = true;
       } catch (error) {
@@ -68,6 +67,25 @@ export const useOrdenesStore = defineStore("ordenes", {
       }
     },
 
+    async guardarOrden() {
+      try {
+        this.loading = true;
+    
+        console.log("Datos a guardar:");
+        console.log(this.contrato);
+    
+        // Cuando tengas el endpoint:
+        // const response = await ordenServicios.guardarOrden(this.contrato);
+    
+        this.setConsulta();
+    
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
     limpiarContrato() {
       Object.keys(this.contrato).forEach((key) => {
         this.contrato[key] = "";
@@ -76,7 +94,9 @@ export const useOrdenesStore = defineStore("ordenes", {
     
     abrirArbolContratos() {
       this.abrirContratos = true;
+    },
+    cambiarComponente(componente) {
+      this.componenteActual = componente;
     }
-  
   },
 });

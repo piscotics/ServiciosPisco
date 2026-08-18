@@ -2,7 +2,7 @@
   <div class="dashboard">
     <Sidebar @change-component="cambiarComponente" />
     <div class="main">
-      <Header />
+      <Header @change-component="cambiarComponente" />
       <main class="content">
         <section class="content-body">
           <div v-if="loading">
@@ -22,6 +22,7 @@ import Header from "../layout/Cabecera.vue";
 import Sidebar from "../layout/Sidebar.vue";
 import Informacion from "../layout/Informacion.vue";
 import ResumenOrden from "../layout/ResumenOrden.vue";
+import Cabecera from "../layout/Cabecera.vue";
 //ACA SE CARGA DIGAMOS QUE ES SERVICIOS EN VISUAL BASIC
 import InfoServicios from "../components/FrmInfoServicios.vue";
 import OrdenServicio from "../components/Servicios/FrmPrestacionServicio.vue";
@@ -32,12 +33,15 @@ import Swal from "sweetalert2";
 const loading = ref(false);
 const model = reactive({});
 const currentComponent = ref("ContratoComponent");
+//const currentComponent = computed(() => ordenesStore.componenteActual);
 const ordenesStore = useOrdenesStore();
+
 const components = {
   InfoServicios,
   OrdenServicio,
   Informacion,
   ResumenOrden,
+  Cabecera,
 };
 const route = useRoute();
 //const contrato = computed(() => ordenesStore.contrato);

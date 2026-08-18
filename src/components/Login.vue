@@ -175,6 +175,8 @@ const login = async () => {
   })
   try {
 
+    console.log(username.value, password.value);
+
     const response = await userServices.Login(
       username.value,
       password.value

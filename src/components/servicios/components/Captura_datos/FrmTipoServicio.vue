@@ -121,7 +121,6 @@
         <label>*Fecha Apertura</label>
         <input type="date" v-model="model.fechaReporte" :disabled="soloLectura" />
       </div>
-    
     </div>
     <div class="field">
       <div>
@@ -142,25 +141,16 @@
       </div>
     </div>
   </section>
-
 </template>
 
-
-
-   
 <script setup>
 import { computed, watch } from "vue";
 import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
 const ordenesStore = useOrdenesStore();
-
 const contrato = computed(() => ordenesStore.contrato);
 const soloLectura = computed(() => ordenesStore.modo === "consulta");
 const model = defineModel();
- 
- 
-      
-   
-      </script>
+</script>
 
 <style scoped>
 /* ACA SE MODIFICO LA CARD DEL FONDO */

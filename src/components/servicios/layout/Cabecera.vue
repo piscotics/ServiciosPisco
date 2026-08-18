@@ -146,14 +146,19 @@ const nuevo = () => {
   ordenStore.setNuevo();
   ordenStore.limpiarContrato();
   ordenStore.abrirArbolContratos();
+
+  emit("change-component", {
+    component: "InfoServicios"
+  });
+  
 };
 
-const guardar = () => {
-  if (!puedeGuardar.value) return;
-
-  // Guardar...
-  ordenStore.setConsulta(); // vuelve a bloquear al terminar
-};
+const guardar = async () => {
+    console.log(ordenStore.contrato);
+    if (!puedeGuardar.value) return;
+    
+    await ordenStore.guardarOrden();
+}
 
 
 </script>
