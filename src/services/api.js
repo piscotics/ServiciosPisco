@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://backend-servicios-e3d3.onrender.com',
+  baseURL: 'https://backend-servicios-tvbz.onrender.com',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
