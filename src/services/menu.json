@@ -1,0 +1,357 @@
+{
+    "menus": [
+      {
+        "id": "archivo",
+        "nombre": "Archivo",
+        "items": [
+          {
+            "nombre": "Cambiar Clave",
+            "accion": "abrirComponente",
+            "componente": "CrearUsuarios"
+          }
+        ]
+      },
+      {
+        "id": "contrato",
+        "nombre": "Contrato",
+        "items": [
+          {
+            "nombre": "Nuevo"
+          },
+          {
+            "nombre": "Editar"
+          },
+          {
+            "nombre": "Guardar"
+          },
+          {
+            "nombre": "Imprimir"
+          },
+          {
+            "nombre": "Carnets"
+          },
+          {
+            "nombre": "Borrar"
+          },
+          {
+            "nombre": "Pagos Colectivos"
+          },
+          {
+            "nombre": "Renovación"
+          },
+          {
+            "divider": true
+          },
+          {
+            "nombre": "Entrega Contratos"
+          },
+          {
+            "nombre": "Entrega Recibos"
+          },
+          {
+            "nombre": "Relacionar Contratos"
+          },
+          {
+            "nombre": "Inactivar"
+          },
+          {
+            "nombre": "Trasladar"
+          },
+          {
+            "nombre": "Retirar"
+          },
+          {
+            "nombre": "Traslado de Cartera por Recaudador"
+          },
+          {
+            "nombre": "Reingresar"
+          },
+          {
+            "nombre": "Historial de Movimientos del Contrato"
+          },
+          {
+            "nombre": "Buscar Recibo"
+          },
+          {
+            "nombre": "Buscar Factura Empresarial"
+          },
+          {
+            "nombre": "Cambiar Contratante"
+          },
+          {
+            "nombre": "Cambiar Cedula Beneficiario"
+          },
+          {
+            "nombre": "Retirar Empresa"
+          },
+          {
+            "nombre": "Retirar Contratos Relacionados"
+          },
+          {
+            "nombre": "Seguro de Vida"
+          },
+          {
+            "nombre": "Posfechar Tarjetas"
+          },
+          {
+            "nombre": "Entregar Tarjetas de Cobro"
+          }
+        ]
+      },
+      {
+        "id": "mensajes",
+        "nombre": "Mensajes de Texto",
+        "items": []
+      },
+      {
+        "id": "operaciones",
+        "nombre": "Operaciones",
+        "items": [
+          {
+            "nombre": "Facturacion Empresarial"
+          },
+          {
+            "nombre": "Certificados Digitales"
+          },
+          {
+            "nombre": "Planeacion Empresarial"
+          },
+          {
+            "nombre": "Convenios de Recaudo",
+            "submenu": [
+              {
+                "nombre": "Generar"
+              },
+              {
+                "nombre": "Importar"
+              }
+            ]
+          },
+          {
+            "nombre": "Migrar Contratos desde Excel"
+          },
+          {
+            "divider": true
+          },
+          {
+            "nombre": "Buscar",
+            "shortcut": "Ctrl+B"
+          },
+          {
+            "nombre": "Cierre Contable"
+          },
+          {
+            "divider": true
+          },
+          {
+            "nombre": "Generar Libro de Ventas (Recaudo Movil)"
+          },
+          {
+            "nombre": "Generacion De Rutas (Recaudo Movil)"
+          },
+          {
+            "divider": true
+          },
+          {
+            "nombre": "Crear Plantilla"
+          },
+          {
+            "divider": true
+          },
+          {
+            "nombre": "Registro Entrega De Carnets"
+          },
+          {
+            "nombre": "Registro Cambios De Cobertura"
+          },
+          {
+            "nombre": "Valida Facturas Electronicas"
+          }
+        ]
+      },
+      {
+        "id": "configuracion",
+        "nombre": "Configuración",
+        "items": [
+          {
+            "nombre": "Crear Usuarios",
+            "accion": "modal",
+            "componente": "CrearUsuarios"
+          },
+          {
+            "nombre": "Parametrizar Cambio de Contraseña"
+          },
+          {
+            "nombre": "Crear Perfil"
+          },
+          {
+            "nombre": "Asignar Privilegios a Perfil"
+          },
+          {
+            "nombre": "Asignar Cajas a Usuarios"
+          },
+          {
+            "nombre": "Crear Zonas"
+          },
+          {
+            "nombre": "Crear Tipo Planes"
+          },
+          {
+            "nombre": "Crear Servicios"
+          },
+          {
+            "nombre": "Crear Planes"
+          },
+          {
+            "nombre": "Crear Comunas"
+          },
+          {
+            "nombre": "Crear Grupo Comercial"
+          },
+          {
+            "nombre": "Crear Ciudades"
+          },
+          {
+            "nombre": "Asignación de Zonas y Comunas"
+          },
+          {
+            "nombre": "Crear Cuentas"
+          },
+          {
+            "nombre": "Crear Tipo de Novedades"
+          },
+          {
+            "nombre": "Crear Departamentos / Municipios / Barrios"
+          },
+          {
+            "nombre": "Crear Financiacion"
+          },
+          {
+            "nombre": "Parametrización Encuesta"
+          },
+          {
+            "divider": true
+          },
+          {
+            "nombre": "Modulo Previsión",
+            "submenu": [
+              {
+                "nombre": "Crear Parentescos",
+                "accion": "modal",
+                "componente": "Parentescos"
+              },
+              {
+                "nombre": "Opción 2"
+              },
+              {
+                "nombre": "Opción 3"
+              }
+            ]
+          },
+          {
+            "nombre": "Modulo Servicios",
+            "submenu": [
+              {
+                "nombre": "Crear Cargos"
+              },
+              {
+                "nombre": "Crear Conceptos de Facturación"
+              },
+              {
+                "nombre": "Crear Cofres"
+              },
+              {
+                "nombre": "Crear Productos"
+              },
+              {
+                "nombre": "Crear Salas"
+              },
+              {
+                "nombre": "Crear Iglesias"
+              },
+              {
+                "nombre": "Crear Cementerios"
+              },
+              {
+                "nombre": "Crear Carrozas"
+              },
+              {
+                "nombre": "Crear Proveedores"
+              },
+              {
+                "nombre": "Crear Convenios Funerarios"
+              },
+              {
+                "nombre": "Crear Celebrantes"
+              },
+              {
+                "nombre": "Crear Medicos"
+              },
+              {
+                "nombre": "Crear Clinicas / Hospitales"
+              },
+              {
+                "nombre": "Crear Notarias"
+              },
+              {
+                "nombre": "Crear Religion O Credo"
+              }
+            ]
+          },
+          {
+            "nombre": "Modulo Mascotas",
+            "submenu": [
+              {
+                "nombre": "Opción 1"
+              },
+              {
+                "nombre": "Opción 2"
+              }
+            ]
+          },
+          {
+            "nombre": "Inactivar Contratos"
+          },
+          {
+            "nombre": "Retirar Contratos"
+          },
+          {
+            "nombre": "Parametrizar Sistema"
+          },
+          {
+            "nombre": "Listado de Usuarios"
+          },
+          {
+            "nombre": "Parametrizar Poliza de Vida"
+          },
+          {
+            "nombre": "Parametrizar Valor de Adicionales"
+          },
+          {
+            "nombre": "Crear Periodos de Facturación"
+          },
+          {
+            "nombre": "Parametrizar Cierres de Mes"
+          },
+          {
+            "nombre": "Parametrizar Rutas de Imagenes",
+            "disabled": true
+          },
+          {
+            "nombre": "Parametrizar Impuestos"
+          },
+          {
+            "nombre": "Administrar Datos",
+            "submenu": [
+              {
+                "nombre": "Opción 1"
+              },
+              {
+                "nombre": "Opción 2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

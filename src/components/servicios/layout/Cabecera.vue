@@ -4,11 +4,9 @@
       <div class="icon" @click="nuevo" :class="{ disabled: !puedeNuevo }">
         📃
       </div>
-
       <div class="icon" @click="guardar" :class="{ disabled: !puedeGuardar }">
         💾
       </div>
-
       <div
         class="icon"
         @click="editar"
@@ -47,262 +45,68 @@
           <div class="user-wrapper">
             <div v-if="showMenu" class="">
               <div class="menu-bar">
-                <div class="menu-item">
-                  Archivo
+                <div
+                  v-for="menu in menuConfig.menus"
+                  :key="menu.id"
+                  class="menu-item"
+                  :class="{ activo: menuActivo === menu.id }"
+                  @click="toggleMenu(menu.id)"
+                >
+                  {{ menu.nombre }}
 
-                  <div class="menu-dropdown">
-                    <div class="dropdown-item">Cambiar Clave</div>
-                  </div>
-                </div>
+                  <!-- SUBMENÚ PRINCIPAL -->
+                  <div
+                    v-if="menuActivo === menu.id && menu.items?.length"
+                    class="menu-dropdown"
+                    @click.stop
+                  >
+                    <template v-for="(item, index) in menu.items" :key="index">
+                      <!-- DIVISOR -->
+                      <div v-if="item.divider" class="dropdown-divider"></div>
 
-                <div class="menu-item">
-                  Contrato
+                      <!-- ITEM CON SUBMENÚ -->
+                      <div
+                        v-else-if="item.submenu"
+                        class="dropdown-item submenu-parent"
+                        @mouseenter="abrirSubmenu($event)"
+                        @mouseleave="cerrarSubmenu($event)"
+                      >
+                        {{ item.nombre }}
 
-                  <div class="menu-dropdown">
-                    <div class="dropdown-item">Nuevo</div>
-                    <div class="dropdown-item">Editar</div>
-                    <div class="dropdown-item">Guardar</div>
-                    <div class="dropdown-item">Imprimir</div>
-                    <div class="dropdown-item">Carnets</div>
-                    <div class="dropdown-item">Borrar</div>
-                    <div class="dropdown-item">Pagos Colectivos</div>
-                    <div class="dropdown-item">Renovación</div>
+                        <span class="submenu-arrow">‹</span>
 
-                    <div class="dropdown-divider"></div>
-
-                    <div class="dropdown-item">Entrega Contratos</div>
-                    <div class="dropdown-item">Entrega Recibos</div>
-                    <div class="dropdown-item">Relacionar Contratos</div>
-                    <div class="dropdown-item">Inactivar</div>
-                    <div class="dropdown-item">Trasladar</div>
-                    <div class="dropdown-item">Retirar</div>
-                    <div class="dropdown-item">
-                      Traslado de Cartera por Recaudador
-                    </div>
-                    <div class="dropdown-item">Reingresar</div>
-                    <div class="dropdown-item">
-                      Historial de Movimientos del Contrato
-                    </div>
-                    <div class="dropdown-item">Buscar Recibo</div>
-                    <div class="dropdown-item">Buscar Factura Empresarial</div>
-                    <div class="dropdown-item">Cambiar Contratante</div>
-                    <div class="dropdown-item">Cambiar Cedula Beneficiario</div>
-                    <div class="dropdown-item">Retirar Empresa</div>
-                    <div class="dropdown-item">
-                      Retirar Contratos Relacionados
-                    </div>
-                    <div class="dropdown-item">Seguro de Vida</div>
-                    <div class="dropdown-item">Posfechar Tarjetas</div>
-                    <div class="dropdown-item">Entregar Tarjetas de Cobro</div>
-                  </div>
-                </div>
-                <div class="menu-item">Mensajes de Texto</div>
-                <div class="menu-item">
-                  Operaciones ▼
-
-                  <div class="menu-dropdown">
-                    <div class="dropdown-item">Facturacion Empresarial</div>
-
-                    <div class="dropdown-item">Certificados Digitales</div>
-
-                    <div class="dropdown-item">Planeacion Empresarial</div>
-
-                    <div class="dropdown-item submenu-parent" @mouseenter="abrirSubmenu($event)" @mouseleave="cerrarSubmenu($event)">
-                      Convenios de Recaudo
-                      <span class="submenu-arrow">‹</span>
-
-                      <div class="submenu-dropdown">
-                        <div class="dropdown-item">Generar</div>
-                        <div class="dropdown-item">Importar</div>
-                      </div>
-                    </div>
-
-                    <div class="dropdown-item">
-                      Migrar Contratos desde Excel
-                    </div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <div class="dropdown-item menu-shortcut">
-                      <span>Buscar</span>
-                      <span>Ctrl+B</span>
-                    </div>
-
-                    <div class="dropdown-item">Cierre Contable</div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <div class="dropdown-item">
-                      Generar Libro de Ventas (Recaudo Movil)
-                    </div>
-
-                    <div class="dropdown-item">
-                      Generacion De Rutas (Recaudo Movil)
-                    </div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <div class="dropdown-item">Crear Plantilla</div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <div class="dropdown-item">Registro Entrega De Carnets</div>
-
-                    <div class="dropdown-item">
-                      Registro Cambios De Cobertura
-                    </div>
-
-                    <div class="dropdown-item">
-                      Valida Facturas Electronicas
-                    </div>
-                  </div>
-                </div>
-
-                <div class="menu-item">
-                  Configuración ▼
-
-                  <div class="menu-dropdown">
-                    <div class="menu-dropdown-scroll">
-                    <div class="dropdown-item">Crear Usuarios</div>
-
-                    <div class="dropdown-item">
-                      Parametrizar Cambio de Contraseña
-                    </div>
-
-                    <div class="dropdown-item">Crear Perfil</div>
-
-                    <div class="dropdown-item">
-                      Asignar Privilegios a Perfil
-                    </div>
-
-                    <div class="dropdown-item">Asignar Cajas a Usuarios</div>
-
-                    <div class="dropdown-item">Crear Zonas</div>
-
-                    <div class="dropdown-item">Crear Tipo Planes</div>
-
-                    <div class="dropdown-item">Crear Servicios</div>
-
-                    <div class="dropdown-item">Crear Planes</div>
-
-                    <div class="dropdown-item">Crear Comunas</div>
-
-                    <div class="dropdown-item">Crear Grupo Comercial</div>
-
-                    <div class="dropdown-item">Crear Ciudades</div>
-
-                    <div class="dropdown-item">
-                      Asignación de Zonas y Comunas
-                    </div>
-
-                    <div class="dropdown-item">Crear Cuentas</div>
-
-                    <div class="dropdown-item">Crear Tipo de Novedades</div>
-
-                    <div class="dropdown-item">
-                      Crear Departamentos / Municipios / Barrios
-                    </div>
-
-                    <div class="dropdown-item">Crear Financiacion</div>
-
-                    <div class="dropdown-item">Parametrización Encuesta</div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <!-- MÓDULO PREVISIÓN -->
-                    <div class="dropdown-item submenu-parent" @mouseenter="abrirSubmenu($event)" @mouseleave="cerrarSubmenu($event)">
-                      Modulo Previsión
-                      <span class="submenu-arrow">‹</span>
-
-                      <div class="submenu-dropdown">
-                        <div class="dropdown-item">Opción 1</div>
-                        <div class="dropdown-item">Opción 2</div>
-                        <div class="dropdown-item">Opción 3</div>
-                      </div>
-                    </div>
-
-                    <!-- MÓDULO SERVICIOS -->
-                    <div class="dropdown-item submenu-parent" @mouseenter="abrirSubmenu($event)" @mouseleave="cerrarSubmenu($event)">
-                      Modulo Servicios
-                      <span class="submenu-arrow">‹</span>
-
-                      <div class="submenu-dropdown">
-                        <div class="dropdown-item">Crear Cargos</div>
-                        <div class="dropdown-item">
-                          Crear Conceptos de Facturación
+                        <!-- SUBMENÚ -->
+                        <div class="submenu-dropdown">
+                          <div
+                            v-for="(subitem, subIndex) in item.submenu"
+                            :key="subIndex"
+                            class="dropdown-item"
+                            :class="{ disabled: subitem.disabled }"
+                            @click="ejecutarOpcion(subitem)"
+                          >
+                            {{ subitem.nombre }}
+                          </div>
                         </div>
-                        <div class="dropdown-item">Crear Cofres</div>
-                        <div class="dropdown-item">Crear Productos</div>
-                        <div class="dropdown-item">Crear Salas</div>
-                        <div class="dropdown-item">Crear Iglesias</div>
-                        <div class="dropdown-item">Crear Cementerios</div>
-                        <div class="dropdown-item">Crear Carrozas</div>
-                        <div class="dropdown-item">Crear Proveedores</div>
-                        <div class="dropdown-item">
-                          Crear Convenios Funerarios
-                        </div>
-                        <div class="dropdown-item">Crear Celebrantes</div>
-                        <div class="dropdown-item">Crear Medicos</div>
-                        <div class="dropdown-item">
-                          Crear Clinicas / Hospitales
-                        </div>
-                        <div class="dropdown-item">Crear Notarias</div>
-                        <div class="dropdown-item">Crear Religion O Credo</div>
                       </div>
-                    </div>
 
-                    <!-- MÓDULO MASCOTAS -->
-                    <div class="dropdown-item submenu-parent" @mouseenter="abrirSubmenu($event)" @mouseleave="cerrarSubmenu($event)">
-                      Modulo Mascotas
-                      <span class="submenu-arrow">‹</span>
+                      <!-- ITEM NORMAL -->
+                      <div
+                        v-else
+                        class="dropdown-item"
+                        :class="{ disabled: item.disabled }"
+                        @click="ejecutarOpcion(item)"
+                      >
+                        <span>{{ item.nombre }}</span>
 
-                      <div class="submenu-dropdown">
-                        <div class="dropdown-item">Opción 1</div>
-                        <div class="dropdown-item">Opción 2</div>
+                        <span v-if="item.shortcut" class="menu-shortcut">
+                          {{ item.shortcut }}
+                        </span>
                       </div>
-                    </div>
-
-                    <div class="dropdown-item">Inactivar Contratos</div>
-
-                    <div class="dropdown-item">Retirar Contratos</div>
-
-                    <div class="dropdown-item">Parametrizar Sistema</div>
-
-                    <div class="dropdown-item">Listado de Usuarios</div>
-
-                    <div class="dropdown-item">Parametrizar Poliza de Vida</div>
-
-                    <div class="dropdown-item">
-                      Parametrizar Valor de Adicionales
-                    </div>
-
-                    <div class="dropdown-item">
-                      Crear Periodos de Facturación
-                    </div>
-
-                    <div class="dropdown-item">Parametrizar Cierres de Mes</div>
-
-                    <div class="dropdown-item disabled">
-                      Parametrizar Rutas de Imagenes
-                    </div>
-
-                    <div class="dropdown-item">Parametrizar Impuestos</div>
-
-                    <!-- ADMINISTRAR DATOS -->
-                    <div class="dropdown-item submenu-parent" @mouseenter="abrirSubmenu($event)" @mouseleave="cerrarSubmenu($event)">
-                      Administrar Datos
-                      <span class="submenu-arrow">‹</span>
-
-                      <div class="submenu-dropdown">
-                        <div class="dropdown-item">Opción 1</div>
-                        <div class="dropdown-item">Opción 2</div>
-                      </div>
-                    </div>
+                    </template>
                   </div>
                 </div>
-                </div>
 
-                <!-- 🔴 CERRAR SESIÓN -->
+                <!-- CERRAR SESIÓN -->
                 <div class="menu-item logout" @click="logout">
                   Cerrar sesión
                 </div>
@@ -313,31 +117,75 @@
       </div>
     </div>
   </header>
+  <ModalManager
+  :visible="modalVisible"
+  :componente="componenteModal"
+  @cerrar="cerrarModal"
+/>
 </template>
+
+
 
 <script setup>
 import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed,markRaw  } from "vue";
 import BarraBusqueda from "../layout/BarraBusqueda.vue";
 import { useRouter } from "vue-router";
-
+//EN ESTA PARTE SE IMPORTA EL JSON PARA QUE SE CONTROLEN LOS MENUS Y SUBMENUS
+import menuConfig from "../../../services/menu.json";
+// Importar el componente ModalManager que es quien controla la apertura y cierre de modales
+import ModalManager from "./Modalmanager.vue";
+//aca se importan los componentes que se van a abrir en los modales, para que el modal manager los pueda renderizar
+import CrearUsuarios from "../../parametros/usuarios/CrearUsuarios.vue";
+import Parentescos from "../../parametros/parentesco/Parentescos.vue";
 const ordenStore = useOrdenesStore();
 const showMenu = ref(false);
 const router = useRouter();
 const user = ref(null);
 const emit = defineEmits(["change-component"]);
 const submenuAbierto = ref(null);
-
+const menuActivo = ref(null);
 const puedeEditar = computed(() => ordenStore.modo === "consulta");
 const puedeNuevo = computed(() => ordenStore.modo === "consulta");
 const puedeGuardar = computed(
   () => ordenStore.modo === "editar" || ordenStore.modo === "nuevo"
 );
-
+const modalVisible = ref(false);
+const componenteModal = ref(null);
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
   router.push("/");
+};
+// Función para ejecutar la acción de un item del menú que viene del JSON
+const ejecutarOpcion = (item) => {
+
+if (item.disabled) return;
+
+if (item.accion === "modal") {
+
+  const componente = componentesModal[item.componente];
+
+  if (!componente) {
+    console.warn(
+      "No existe el componente:",
+      item.componente
+    );
+    return;
+  }
+
+  abrirModal(componente);
+}
+};
+// Función para abrir un modal con un componente específico
+const componentesModal1 = {
+  CrearUsuarios,
+  Parentescos,
+};
+
+const componentesModal = {
+  CrearUsuarios: markRaw(CrearUsuarios),
+  Parentescos: markRaw(Parentescos),
 };
 
 onMounted(() => {
@@ -346,12 +194,12 @@ onMounted(() => {
     user.value = JSON.parse(storedUser);
   }
 });
-
+//funcion que envia al store si se edita la orden de servicio
 const editar = () => {
   if (!puedeEditar.value) return;
   ordenStore.setEditar();
 };
-
+//funcion que envia al store si se crea una nueva orden de servicio
 const nuevo = () => {
   if (!puedeNuevo.value) return;
   ordenStore.setNuevo();
@@ -361,7 +209,7 @@ const nuevo = () => {
     component: "InfoServicios",
   });
 };
-
+//funcion que envia al store si se crea una nueva orden de servicio
 const guardar = async () => {
   console.log(ordenStore.contrato);
   if (!puedeGuardar.value) return;
@@ -372,47 +220,47 @@ const guardar = async () => {
 // Funciones para manejar submenús - VERSIÓN MEJORADA
 const abrirSubmenu = (event) => {
   const parent = event.currentTarget;
-  const submenu = parent.querySelector('.submenu-dropdown');
-  
+  const submenu = parent.querySelector(".submenu-dropdown");
+
   // Cerrar cualquier otro submenú abierto
   if (submenuAbierto.value && submenuAbierto.value !== submenu) {
-    submenuAbierto.value.style.display = 'none';
+    submenuAbierto.value.style.display = "none";
   }
-  
+
   if (submenu) {
     const rect = parent.getBoundingClientRect();
     const submenuWidth = 260;
-    
+
     // Posicionar a la IZQUIERDA del item
     let left = rect.left - submenuWidth - 8;
     let top = rect.top;
-    
+
     // Si no cabe a la izquierda, poner a la derecha
     if (left < 10) {
       left = rect.right + 8;
     }
-    
+
     // Ajustar verticalmente
     if (top + 400 > window.innerHeight) {
       top = window.innerHeight - 410;
     }
     if (top < 10) top = 10;
-    
-    submenu.style.left = left + 'px';
-    submenu.style.top = top + 'px';
-    submenu.style.display = 'block';
+
+    submenu.style.left = left + "px";
+    submenu.style.top = top + "px";
+    submenu.style.display = "block";
     submenuAbierto.value = submenu;
   }
 };
 
 const cerrarSubmenu = (event) => {
   const parent = event.currentTarget;
-  const submenu = parent.querySelector('.submenu-dropdown');
-  
+  const submenu = parent.querySelector(".submenu-dropdown");
+
   // Aumentar el tiempo de espera para permitir mover el mouse al submenú
   setTimeout(() => {
-    if (submenu && !submenu.matches(':hover') && !parent.matches(':hover')) {
-      submenu.style.display = 'none';
+    if (submenu && !submenu.matches(":hover") && !parent.matches(":hover")) {
+      submenu.style.display = "none";
       if (submenuAbierto.value === submenu) {
         submenuAbierto.value = null;
       }
@@ -420,37 +268,24 @@ const cerrarSubmenu = (event) => {
   }, 200); // Aumentado de 150 a 200ms
 };
 
+const abrirModal1 = (componente) => {
+  componenteModal.value = componente;
+  modalVisible.value = true;
+};
 
-// Mantener submenú abierto cuando el mouse está sobre él
-// Prevenir cierre cuando el mouse está en el submenú
-onMounted(() => {
-  document.addEventListener('mouseover', (e) => {
-    const submenu = e.target.closest('.submenu-dropdown');
-    if (submenu) {
-      const parent = submenu.closest('.dropdown-item.submenu-parent');
-      if (parent) {
-        submenu.style.display = 'block';
-        submenuAbierto.value = submenu;
-      }
-    }
-  });
+const abrirModal = (componente) => {
+  componenteModal.value = componente;
+  modalVisible.value = true;
+};
 
-  // Cuando el mouse sale del submenú, verificar si debe cerrarse
-  document.addEventListener('mouseleave', (e) => {
-    const submenu = e.target.closest('.submenu-dropdown');
-    if (submenu) {
-      const parent = submenu.closest('.dropdown-item.submenu-parent');
-      setTimeout(() => {
-        if (parent && !parent.matches(':hover') && !submenu.matches(':hover')) {
-          submenu.style.display = 'none';
-          if (submenuAbierto.value === submenu) {
-            submenuAbierto.value = null;
-          }
-        }
-      }, 200);
-    }
-  });
-});
+const cerrarModal = () => {
+  modalVisible.value = false;
+  componenteModal.value = null;
+};
+
+const toggleMenu = (menu) => {
+  menuActivo.value = menuActivo.value === menu ? null : menu;
+};
 </script>
 
 <style scoped>
@@ -619,7 +454,9 @@ onMounted(() => {
   background: #fef2f2;
   color: #dc2626;
 }
-
+.menu-item.activo {
+  background: #eee;
+}
 /* ============================================
    MENÚ DESPLEGABLE (Contrato, Operaciones, Configuración)
    Se abre a la IZQUIERDA
@@ -634,7 +471,6 @@ onMounted(() => {
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  display: none;
   z-index: 1300;
   padding: 6px 0;
   max-height: calc(100vh - 90px);
@@ -793,8 +629,19 @@ onMounted(() => {
    ANIMACIÓN
    ============================================ */
 
+/* ============================================
+   ARCHIVO - ABRIR POR CLICK
+   ============================================ */
 
-   
+/* Archivo se controla por CLICK, no por hover */
+.menu-item.archivo-menu:hover > .menu-dropdown.archivo-dropdown {
+  display: none;
+}
+
+.menu-item.archivo-menu.activo > .menu-dropdown.archivo-dropdown {
+  display: block;
+}
+
 @keyframes fadeDown {
   from {
     opacity: 0;
