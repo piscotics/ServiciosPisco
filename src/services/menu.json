@@ -255,6 +255,16 @@
                 "nombre": "Crear Cargos"
               },
               {
+                "nombre": "Crear Sedes",
+                "accion": "modal",
+                "componente": "Sedes"
+              },
+              {
+                "nombre": "Crear Tipo Pagos",
+                "accion": "modal",
+                "componente": "TipoPagos"
+              },
+              {
                 "nombre": "Crear Conceptos de Facturación"
               },
               {
@@ -270,7 +280,9 @@
                 "nombre": "Crear Iglesias"
               },
               {
-                "nombre": "Crear Cementerios"
+                "nombre": "Crear Cementerios",
+                "accion": "modal",
+                "componente": "Cementerios"
               },
               {
                 "nombre": "Crear Carrozas"

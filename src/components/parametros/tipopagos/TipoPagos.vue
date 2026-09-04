@@ -1,41 +1,37 @@
 <template>
-  <div class="parentescos">
+  <div class="tipo-pagos">
     <div class="titulo">
-      <h2>Gestión de Parentescos</h2>
+      <h2>Gestión de Tipos de Pago</h2>
     </div>
-    <!-- FORMULARIO -->
+
+    <!-- =========================
+         FORMULARIO
+    ========================= -->
+
     <div class="formulario">
       <div class="campo">
-        <label>Nombre del parentesco</label>
+        <label>Tipo de Pago</label>
 
-        <input v-model="form.parentesco" type="text" placeholder="Ej: Padre" />
+        <input v-model="form.tipopago" type="text" placeholder="Ej: Auxilio" />
       </div>
 
       <div class="campo">
-        <label>Línea</label>
+        <label>Estado</label>
 
-        <select v-model="form.linea">
-          <option value="">Seleccione...</option>
+        <select v-model="form.estado">
+          <option :value="1">Activo</option>
 
-          <option value="Directa">Directa</option>
-
-          <option value="Colateral">Colateral</option>
+          <option :value="0">Inactivo</option>
         </select>
       </div>
-
-      <div class="campo">
-        <label>Edad límite</label>
-
-        <input
-          v-model="form.edadlimite"
-          type="number"
-          min="0"
-          placeholder="Ej: 25"
-        />
-      </div>
     </div>
+
     <br />
-    <!-- CONTROLES DE TABLA -->
+
+    <!-- =========================
+         CONTROLES DE TABLA
+    ========================= -->
+
     <div class="tabla-controles">
       <div class="mostrar">
         <span>Mostrar</span>
@@ -53,53 +49,67 @@
       <div class="buscar">
         <label>Buscar:</label>
 
-        <input v-model="busqueda" type="text" placeholder="Buscar..." />
+        <input
+          v-model="busqueda"
+          type="text"
+          placeholder="Buscar tipo de pago..."
+        />
       </div>
     </div>
 
-    <!-- TABLA -->
+    <!-- =========================
+         TABLA
+    ========================= -->
+
     <div class="tabla-container">
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Parentesco</th>
-            <th>Línea</th>
-            <th>Edad Límite</th>
-            <th>Cambiado Por</th>
+
+            <th>Tipo de Pago</th>
+
+            <th>Estado</th>
+
+            <th>Usuario Modif.</th>
+
             <th>Acciones</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr
-            v-for="parentesco in parentescosPaginados"
-            :key="parentesco.idparentesco"
-          >
-            <td>{{ parentesco.idparentesco }}</td>
+          <tr v-for="tipo in tiposPagosPaginados" :key="tipo.idtipopago">
+            <td>
+              {{ tipo.idtipopago }}
+            </td>
 
-            <td>{{ parentesco.parentesco }}</td>
+            <td>
+              {{ tipo.tipopago }}
+            </td>
 
-            <td>{{ parentesco.linea }}</td>
+            <td>
+              <span
+                :class="['estado', tipo.estado == 1 ? 'activo' : 'inactivo']"
+              >
+                {{ tipo.estado == 1 ? "Activo" : "Inactivo" }}
+              </span>
+            </td>
 
-            <td>{{ parentesco.edadlimite }}</td>
-
-            <td>{{ parentesco.cambiadopor }}</td>
+            <td>
+              {{ tipo.usuariomodif }}
+            </td>
 
             <td class="acciones-tabla">
-              <button class="btn-editar" @click="editar(parentesco)">
-                ✏️ 
-              </button>
+              <button class="btn-editar" @click="editar(tipo)">✏️</button>
 
-              <button class="btn-eliminar" @click="eliminar(parentesco)">
-                🗑️ 
-              </button>
+              <button class="btn-eliminar" @click="eliminar(tipo)">🗑️</button>
             </td>
           </tr>
 
           <!-- SIN RESULTADOS -->
-          <tr v-if="parentescosPaginados.length === 0">
-            <td colspan="6" class="sin-resultados">
+
+          <tr v-if="tiposPagosPaginados.length === 0">
+            <td colspan="5" class="sin-resultados">
               No se encontraron registros
             </td>
           </tr>
@@ -107,15 +117,30 @@
       </table>
     </div>
 
-    <!-- PAGINACIÓN -->
+    <!-- =========================
+         PAGINACIÓN
+    ========================= -->
+
     <div class="tabla-footer">
       <div class="info-registros">
         Mostrando
-        <strong>{{ registroInicio }}</strong>
+
+        <strong>
+          {{ registroInicio }}
+        </strong>
+
         a
-        <strong>{{ registroFin }}</strong>
+
+        <strong>
+          {{ registroFin }}
+        </strong>
+
         de
-        <strong>{{ registrosFiltrados.length }}</strong>
+
+        <strong>
+          {{ registrosFiltrados.length }}
+        </strong>
+
         registros
       </div>
 
@@ -127,14 +152,16 @@
         <button
           v-for="pagina in paginas"
           :key="pagina"
-          :class="{ activa: pagina === paginaActual }"
+          :class="{
+            activa: pagina === paginaActual,
+          }"
           @click="paginaActual = pagina"
         >
           {{ pagina }}
         </button>
 
         <button
-          :disabled="paginaActual === totalPaginas"
+          :disabled="paginaActual === totalPaginas || totalPaginas === 0"
           @click="paginaActual++"
         >
           ›
@@ -142,11 +169,14 @@
       </div>
     </div>
 
-    <!-- BOTONES -->
+    <!-- =========================
+         BOTONES
+    ========================= -->
+
     <div class="acciones">
       <button class="btn-nuevo" @click="nuevo">Nuevo</button>
 
-      <button class="btn-guardar" @click="guardar" :disabled="!form.parentesco">
+      <button class="btn-guardar" @click="guardar" :disabled="!form.tipopago">
         Guardar
       </button>
 
@@ -157,80 +187,61 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
+
 import Swal from "sweetalert2";
+import { useTipoPagoStore } from "../../../stores/parametros/tipopagos/TipoPagoStore.js";
 
-import { parentescoStore } from "../../../stores/parametros/parentescoStore.js";
+const tipoPagosStore = useTipoPagoStore();
 
-const parentescosStore = parentescoStore();
-
-/* =====================================================
-   FORMULARIO
-===================================================== */
-
-const parentescoSeleccionado = ref(null);
+const tipoPagoSeleccionado = ref(null);
 
 const form = ref({
-  idparentesco: null,
-  parentesco: "",
-  linea: "",
-  edadlimite: "",
+  idtipopago: null,
+  tipopago: "",
+  usuariomodif: "",
+  computador: "",
+  ip: "",
+  estado: 1,
 });
 
-/* =====================================================
-   TABLA
-===================================================== */
-
 const busqueda = ref("");
-
 const paginaActual = ref(1);
-
 const itemsPorPagina = ref(10);
-
-/* =====================================================
-   FILTRO
-===================================================== */
 
 const registrosFiltrados = computed(() => {
   const texto = busqueda.value.toLowerCase().trim();
 
   if (!texto) {
-    return parentescosStore.parentescos;
+    return tipoPagosStore.tipoPagos;
   }
 
-  return parentescosStore.parentescos.filter((parentesco) => {
+  return tipoPagosStore.tipoPagos.filter((tipo) => {
     return (
-      String(parentesco.idparentesco).toLowerCase().includes(texto) ||
-      String(parentesco.parentesco).toLowerCase().includes(texto) ||
-      String(parentesco.linea).toLowerCase().includes(texto) ||
-      String(parentesco.edadlimite).toLowerCase().includes(texto) ||
-      String(parentesco.cambiadopor).toLowerCase().includes(texto)
+      String(tipo.idtipopago ?? "")
+        .toLowerCase()
+        .includes(texto) ||
+      String(tipo.tipopago ?? "")
+        .toLowerCase()
+        .includes(texto) ||
+      String(tipo.usuariomodif ?? "")
+        .toLowerCase()
+        .includes(texto) ||
+      (tipo.estado == 1 ? "activo" : "inactivo").includes(texto)
     );
   });
 });
-
-/* =====================================================
-   TOTAL PAGINAS
-===================================================== */
 
 const totalPaginas = computed(() => {
   return Math.ceil(registrosFiltrados.value.length / itemsPorPagina.value);
 });
 
-/* =====================================================
-   REGISTROS DE LA PÁGINA
-===================================================== */
-
-const parentescosPaginados = computed(() => {
+const tiposPagosPaginados = computed(() => {
   const inicio = (paginaActual.value - 1) * itemsPorPagina.value;
 
   const fin = inicio + itemsPorPagina.value;
 
   return registrosFiltrados.value.slice(inicio, fin);
 });
-
-/* =====================================================
-   INFORMACIÓN MOSTRADA
-===================================================== */
 
 const registroInicio = computed(() => {
   if (registrosFiltrados.value.length === 0) {
@@ -248,16 +259,16 @@ const registroFin = computed(() => {
   );
 });
 
-/* =====================================================
-   NÚMEROS DE PÁGINA
-===================================================== */
-
 const paginas = computed(() => {
   const total = totalPaginas.value;
 
   const actual = paginaActual.value;
 
   const resultado = [];
+
+  if (total === 0) {
+    return [];
+  }
 
   let inicio = Math.max(1, actual - 2);
 
@@ -275,16 +286,12 @@ const paginas = computed(() => {
 });
 
 /* =====================================================
-   REINICIAR PAGINA CUANDO SE BUSCA
+   REINICIAR PAGINA
 ===================================================== */
 
 watch(busqueda, () => {
   paginaActual.value = 1;
 });
-
-/* =====================================================
-   REINICIAR PAGINA AL CAMBIAR CANTIDAD
-===================================================== */
 
 watch(itemsPorPagina, () => {
   paginaActual.value = 1;
@@ -294,53 +301,35 @@ watch(itemsPorPagina, () => {
    CARGAR
 ===================================================== */
 
-
 const cargar = async () => {
   Swal.fire({
     title: "Cargando",
-    text: "Consultando parentescos...",
+
+    text: "Consultando tipos de pago...",
+
     allowOutsideClick: false,
+
     didOpen: () => {
       Swal.showLoading();
     },
   });
 
   try {
-    await parentescosStore.cargarParentescos();
+    await tipoPagosStore.cargarTipoPagos();
   } catch (error) {
-    console.error("Error cargando parentescos:", error);
+    console.error("Error cargando tipos de pago:", error);
 
     Swal.fire({
       icon: "error",
+
       title: "Error",
-      text: "No fue posible cargar los parentescos.",
+
+      text: "No fue posible cargar los tipos de pago.",
     });
   } finally {
-    // Solo cerrar si todavía está abierto
     if (Swal.isVisible()) {
       Swal.close();
     }
-  }
-};
-
-
-const cargar1 = async () => {
-  Swal.fire({
-    title: "Cargando",
-
-    text: "Consultando parentescos...",
-
-    allowOutsideClick: false,
-
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-
-  try {
-    await parentescosStore.cargarParentescos();
-  } finally {
-    Swal.close();
   }
 };
 
@@ -349,38 +338,44 @@ onMounted(async () => {
 });
 
 /* =====================================================
+   LIMPIAR FORMULARIO
+===================================================== */
+
+const limpiarFormulario = () => {
+  form.value = {
+    idtipopago: null,
+
+    tipopago: "",
+
+    usuariomodif: "",
+
+    computador: "",
+
+    ip: "",
+
+    estado: 1,
+  };
+};
+
+/* =====================================================
    NUEVO
 ===================================================== */
 
 const nuevo = () => {
-  parentescoSeleccionado.value = null;
+  tipoPagoSeleccionado.value = null;
 
-  form.value = {
-    idparentesco: null,
-
-    parentesco: "",
-
-    linea: "",
-
-    edadlimite: "",
-  };
+  limpiarFormulario();
 };
 
 /* =====================================================
    EDITAR
 ===================================================== */
 
-const editar = (parentesco) => {
-  parentescoSeleccionado.value = parentesco;
+const editar = (tipo) => {
+  tipoPagoSeleccionado.value = tipo;
 
   form.value = {
-    idparentesco: parentesco.idparentesco,
-
-    parentesco: parentesco.parentesco,
-
-    linea: parentesco.linea,
-
-    edadlimite: parentesco.edadlimite,
+    ...tipo,
   };
 };
 
@@ -389,17 +384,9 @@ const editar = (parentesco) => {
 ===================================================== */
 
 const cancelar = () => {
-  parentescoSeleccionado.value = null;
+  tipoPagoSeleccionado.value = null;
 
-  form.value = {
-    idparentesco: null,
-
-    parentesco: "",
-
-    linea: "",
-
-    edadlimite: "",
-  };
+  limpiarFormulario();
 };
 
 /* =====================================================
@@ -414,13 +401,13 @@ const guardar = () => {
    ELIMINAR
 ===================================================== */
 
-const eliminar = (parentesco) => {
-  console.log("Eliminar:", parentesco);
+const eliminar = (tipo) => {
+  console.log("Eliminar:", tipo);
 };
 </script>
 
 <style scoped>
-.parentescos {
+.tipo-pagos {
   width: 100%;
 }
 
@@ -430,15 +417,18 @@ const eliminar = (parentesco) => {
 
 .titulo {
   border-bottom: 1px solid #ddd;
+
   margin-bottom: 15px;
 }
 
 .titulo h2 {
   margin: 0 0 10px;
+
   font-size: 20px;
 }
+
 /* =========================
-   ACA ME PONE EL MODAL ENCIMA DE TODO
+   SWEET ALERT
 ========================= */
 
 :global(.swal2-container) {
@@ -545,6 +535,34 @@ tbody tr:hover {
 }
 
 /* =========================
+   ESTADOS
+========================= */
+
+.estado {
+  display: inline-block;
+
+  padding: 4px 9px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.estado.activo {
+  background: #dcfce7;
+
+  color: #166534;
+}
+
+.estado.inactivo {
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+/* =========================
    ACCIONES TABLA
 ========================= */
 
@@ -605,7 +623,7 @@ tbody tr:hover {
 }
 
 /* =========================
-   PAGINACION
+   PAGINACIÓN
 ========================= */
 
 .paginacion {
@@ -653,7 +671,7 @@ tbody tr:hover {
 .formulario {
   display: grid;
 
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 
   gap: 15px;
 
@@ -744,4 +762,3 @@ button:disabled {
   background: #f1f5f9;
 }
 </style>
-

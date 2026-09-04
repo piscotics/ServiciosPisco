@@ -1,28 +1,28 @@
 <template>
   <section class="search-bar">
     <div class="tools">
-  <input
-    v-model="contrato"
-    type="text"
-    placeholder="Buscar..."
-    class="input"
-    @keyup.enter="seleccionarContrato"
-  />
+      <input
+        v-model="contrato"
+        type="text"
+        placeholder="Buscar..."
+        class="input"
+        @keyup.enter="seleccionarContrato"
+      />
 
-  <select v-model="tipo" class="select">
-    <option value="">Por # de Orden Servicio</option>
-    <option value="agua">Por Cédula de Fallecido</option>
-  </select>
+      <select v-model="tipo" class="select">
+        <option value="orden">Por # de Orden Servicio</option>
+        <option value="cedula">Por Cédula de Fallecido</option>
+      </select>
 
-  <button
-    class="btn-buscar"
-    type="button"
-    @click="seleccionarContrato"
-    title="Buscar"
-  >
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-</div>
+      <button
+        class="btn-buscar"
+        type="button"
+        @click="seleccionarContrato"
+        title="Buscar"
+      >
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
   </section>
 </template>
 
@@ -30,16 +30,23 @@
 import { ref } from "vue";
 import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
 import Swal from "sweetalert2";
+const emit = defineEmits(["change-component"]);
 const contrato = ref("");
 const ordenesStore = useOrdenesStore();
-const tipo = ref("");
+const tipo = ref("orden");
+const loading = ref(false);
 
 const seleccionarContrato = async () => {
-  if (!contrato.value || !contrato.value.trim()) {
+  const valor = contrato.value.trim();
+
+  if (!valor) {
     Swal.fire({
       icon: "warning",
-      title: "Buscar orden",
-      text: "Ingrese un número de Orden de Servicio",
+      title: "Buscar",
+      text:
+        tipo.value === "cedula"
+          ? "Ingrese la cédula del fallecido"
+          : "Ingrese un número de Orden de Servicio",
     });
 
     return;
@@ -48,56 +55,124 @@ const seleccionarContrato = async () => {
   try {
     loading.value = true;
 
-    await ordenesStore.cargarOrdenIndividual(
-      contrato.value.trim()
-    );
+    // =========================
+    // BUSCAR POR ORDEN
+    // =========================
+    if (tipo.value === "orden") {
+      await ordenesStore.cargarOrdenIndividual(valor);
 
-    // Verificamos si encontró información
+      if (!ordenesStore.contrato) {
+        Swal.fire({
+          icon: "info",
+          title: "No encontrada",
+          text: "No se encontró información con el dato ingresado",
+        });
+        return;
+      }
+
+      // 🔥 Mandamos el contrato encontrado al Sidebar
+      ordenesStore.seleccionarContratoBuscado(ordenesStore.contrato);
+    }
+    // =========================
+    // BUSCAR POR CÉDULA
+    // =========================
+    else if (tipo.value === "cedula") {
+      await ordenesStore.buscarPorCedula(valor);
+
+      if (!ordenesStore.contrato) {
+        Swal.fire({
+          icon: "info",
+          title: "No encontrada",
+          text: "No se encontraron órdenes para la cédula ingresada",
+        });
+        return;
+      }
+
+      ordenesStore.seleccionarContratoBuscado(ordenesStore.contrato);
+    }
+
+    // =========================
+    // VALIDAR RESULTADO
+    // =========================
     if (!ordenesStore.contrato || !ordenesStore.contrato.idscontrato) {
       Swal.fire({
         icon: "info",
         title: "No encontrada",
-        text: "No se encontró la Orden de Servicio",
+        text: "No se encontró información con el dato ingresado",
       });
 
       return;
     }
 
-    // Aquí mandamos la orden encontrada a la pantalla
-    seleccionarContratoPantalla(ordenesStore.contrato);
-
+    // =========================
+    // IR A LA PANTALLA
+    // =========================
+    emit("change-component", {
+      component: "ResumenOrden",
+      // contrato: ordenesStore.contrato,
+    });
   } catch (error) {
-    console.error("Error buscando contrato:", error);
+    console.error("Error buscando:", error);
 
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: "No fue posible consultar la Orden de Servicio",
+      text: "No fue posible realizar la búsqueda",
     });
   } finally {
     loading.value = false;
   }
 };
 
-const seleccionarContratoe = async (contrato) => {
-  const estabaAbierto = open[contrato.idscontrato];
-  // Cerrar todos
-  contratos.value.forEach((c) => {
-    open[c.idscontrato] = false;
-  });
+const seleccionarContrato1 = async () => {
+  const valor = contrato.value.trim();
 
-  // Si estaba cerrado, lo abrimos
-  if (!estabaAbierto) {
-    open[contrato.idscontrato] = true;
-
-    //  await ordenesStore.cargarOrdenIndividual(contrato.idscontrato);
-
-    emit("change-component", {
-      component: "ResumenOrden",
-      tipo: "contrato",
-      idServicio: contrato.idservicio,
-      idContrato: contrato.idscontrato,
+  if (!valor) {
+    Swal.fire({
+      icon: "warning",
+      title: "Buscar",
+      text:
+        tipo.value === "cedula"
+          ? "Ingrese la cédula del fallecido"
+          : "Ingrese un número de Orden de Servicio",
     });
+
+    return;
+  }
+
+  try {
+    loading.value = true;
+
+    // Buscar por número de Orden de Servicio
+    if (tipo.value === "orden") {
+      await ordenesStore.cargarOrdenIndividual(valor);
+    }
+
+    // Buscar por cédula del fallecido
+    else if (tipo.value === "cedula") {
+      await ordenesStore.buscarPorCedula(valor);
+    }
+
+    // Verificamos si encontró información
+    if (!ordenesStore.contrato || !ordenesStore.contrato.idscontrato) {
+      Swal.fire({
+        icon: "info",
+        title: "No encontrada",
+        text: "No se encontró información con el dato ingresado",
+      });
+
+      return;
+    }
+  } catch (error) {
+    console.error("Error buscando:", error);
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No fue posible realizar la búsqueda",
+    });
+  } finally {
+    loading.value = false;
   }
 };
 </script>
@@ -179,22 +254,6 @@ h3 {
   box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
 }
 
-.btn {
-  height: 32px; /* 🔥 igual que inputs */
-  padding: 0 12px;
-  border-radius: 6px;
-  border: none;
-
-  background: #334155;
-  color: white;
-  font-size: 13px;
-}
-
-.btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-1px);
-}
-
 @media (max-width: 780px) {
   .search-bar {
     gap: 8px;
@@ -216,10 +275,6 @@ h3 {
 
   .select {
     width: 105px;
-  }
-
-  .btn {
-    padding: 0 12px;
   }
 }
 </style>

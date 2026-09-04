@@ -129,6 +129,24 @@ watch(
   }
 );
 
+watch(
+  () => ordenesStore.contratoSeleccionado,
+  (contrato) => {
+    if (!contrato) return;
+
+    // Cerramos todos los contratos
+    contratos.value.forEach(c => {
+      open[c.idscontrato] = false;
+    });
+
+    // Abrimos el contrato que acabamos de buscar
+    open[contrato.idscontrato] = true;
+
+    // Lo marcamos como seleccionado
+    selected.value = `Informacion-${contrato.idscontrato}`;
+  }
+);
+
 const toggle = (key) => {
   open[key] = !open[key];
 };

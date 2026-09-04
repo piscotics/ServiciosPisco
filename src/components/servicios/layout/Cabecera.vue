@@ -34,7 +34,9 @@
           <div>⚡ Procesos</div>
         </div>
       </div>
-      <BarraBusqueda />
+       <!-- ACA EN ESTA PARTE NOS CARGA EL COMPONENTE EN PANTALLA PRINCIPAL -->
+      <BarraBusqueda  @change-component="emit('change-component', $event)" />
+
       <div class="user-wrapper">
         <div class="user" @click="showMenu = !showMenu">
           <span class="avatar">A</span>
@@ -138,6 +140,9 @@ import ModalManager from "./Modalmanager.vue";
 //aca se importan los componentes que se van a abrir en los modales, para que el modal manager los pueda renderizar
 import CrearUsuarios from "../../parametros/usuarios/CrearUsuarios.vue";
 import Parentescos from "../../parametros/parentesco/Parentescos.vue";
+import Sedes from "../../parametros/sedes/Sedes.vue";
+import Cementerios from "../../parametros/cementerios/Cementerios.vue";
+import TipoPagos from "../../parametros/tipopagos/TipoPagos.vue";
 const ordenStore = useOrdenesStore();
 const showMenu = ref(false);
 const router = useRouter();
@@ -181,11 +186,17 @@ if (item.accion === "modal") {
 const componentesModal1 = {
   CrearUsuarios,
   Parentescos,
+  Sedes,
+  Cementerios,
+  TipoPagos,
 };
 
 const componentesModal = {
   CrearUsuarios: markRaw(CrearUsuarios),
   Parentescos: markRaw(Parentescos),
+  Sedes: markRaw(Sedes),
+  Cementerios: markRaw(Cementerios),
+  TipoPagos: markRaw(TipoPagos),
 };
 
 onMounted(() => {
@@ -215,7 +226,6 @@ const guardar = async () => {
   if (!puedeGuardar.value) return;
   await ordenStore.guardarOrden();
 };
-
 // Funciones para manejar submenús
 // Funciones para manejar submenús - VERSIÓN MEJORADA
 const abrirSubmenu = (event) => {
@@ -266,11 +276,6 @@ const cerrarSubmenu = (event) => {
       }
     }
   }, 200); // Aumentado de 150 a 200ms
-};
-
-const abrirModal1 = (componente) => {
-  componenteModal.value = componente;
-  modalVisible.value = true;
 };
 
 const abrirModal = (componente) => {

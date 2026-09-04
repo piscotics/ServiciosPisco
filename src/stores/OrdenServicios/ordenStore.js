@@ -7,6 +7,8 @@ export const useOrdenesStore = defineStore("ordenes", {
     contrato: {},
     cargado: false,
     loading: false,
+    ontratosEncontrados: [],
+    contratoSeleccionado: null,
     modo: "consulta",
     abrirContratos: false,
     componenteActual: "Informacion",
@@ -49,12 +51,52 @@ export const useOrdenesStore = defineStore("ordenes", {
       }
     },
 
-    async cargarOrdenIndividual(idContrato) {
+    async cargarOrdenIndividual1(idContrato) {
       try {
         const response = await ordenServicios.cargarOrdenIndividual(idContrato);
         this.contrato = response.data[0];
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    async cargarOrdenIndividual(idContrato) {
+      try {
+        const response = await ordenServicios.cargarOrdenIndividual(idContrato);
+
+        console.log("Respuesta búsqueda por cédula:", response.data);
+
+        if (!response.data || response.data.length === 0) {
+          this.contrato = null;
+          return null;
+        }
+
+        this.contrato = response.data[0];
+
+        return this.contrato;
+      } catch (error) {
+        console.error("Error cargarOrdenIndividual:", error);
+        throw error;
+      }
+    },
+
+    async buscarPorCedula(idfallecido) {
+      try {
+        const response = await ordenServicios.cargarOrdenIndividual(idfallecido);
+    
+        console.log("Respuesta búsqueda por cédula:", response.data);
+    
+        if (!response.data || response.data.length === 0) {
+          this.contrato = null;
+          return null;
+        }
+    
+        this.contrato = response.data[0];
+    
+        return this.contrato;
+      } catch (error) {
+        console.error("Error buscando por cédula:", error);
+        throw error;
       }
     },
 
@@ -67,18 +109,34 @@ export const useOrdenesStore = defineStore("ordenes", {
       }
     },
 
+    async seleccionarContratoBuscado(contrato) {
+      if (!contrato) return;
+    
+      // Guardamos cuál contrato se buscó
+      this.contratoSeleccionado = contrato;
+    
+      // Revisamos si ya está en la lista del Sidebar
+      const existe = this.contratos.some(
+        c => c.idscontrato === contrato.idscontrato
+      );
+    
+      // Si no existe, lo agregamos
+      if (!existe) {
+        this.contratos.unshift(contrato);
+      }
+    },
+
     async guardarOrden() {
       try {
         this.loading = true;
-    
+
         console.log("Datos a guardar:");
         console.log(this.contrato);
-    
+
         // Cuando tengas el endpoint:
         // const response = await ordenServicios.guardarOrden(this.contrato);
-    
+
         this.setConsulta();
-    
       } catch (error) {
         console.error(error);
       } finally {
@@ -91,12 +149,12 @@ export const useOrdenesStore = defineStore("ordenes", {
         this.contrato[key] = "";
       });
     },
-    
+
     abrirArbolContratos() {
       this.abrirContratos = true;
     },
     cambiarComponente(componente) {
       this.componenteActual = componente;
-    }
+    },
   },
 });

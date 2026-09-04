@@ -21,12 +21,12 @@
 
       <div>
         <label>*Fecha</label> 
-        <input type="date" v-model="contrato.sfecha" :disabled="soloLectura" />
+        <input type="date" v-model="fechaServicio" :disabled="soloLectura">
       </div>
 
       <div>
         <label>Hora Reporte</label>
-        <input type="time" v-model="model.horaReporte" :disabled="soloLectura"  />
+        <input type="date" v-model="fechaReporte" :disabled="soloLectura">
       </div>
 
       <div>
@@ -146,10 +146,17 @@
 <script setup>
 import { computed, watch } from "vue";
 import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
+import { limpiarFecha } from "../../../../utils/fechas.js";
+//const fechaServicio = limpiarFecha(contrato, "sfecha");
+//const fechaApertura = limpiarFecha(model, "fechaReporte");
+//const fechaAfiliacion = limpiarFecha(model, "fechaAfiliacion");
 const ordenesStore = useOrdenesStore();
 const contrato = computed(() => ordenesStore.contrato);
 const soloLectura = computed(() => ordenesStore.modo === "consulta");
 const model = defineModel();
+const fechaServicio = limpiarFecha(contrato, "sfecha");
+const fechaReporte = limpiarFecha(contrato, "horareporte");
+const fechaAfiliacion = limpiarFecha(model, "fechaAfiliacion");
 </script>
 
 <style scoped>
