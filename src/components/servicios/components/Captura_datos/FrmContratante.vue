@@ -32,12 +32,24 @@
           :disabled="soloLectura"
         />
       </div>
-      <div style="width: 150px">
-        <label>Departamento</label>
-        <select v-model="model.especie" :disabled="soloLectura">
-          <option value="Canino">Directo Fallecido</option>
-        </select>
-      </div>
+      
+<div style="width: 150px">
+  <label>Departamento</label>
+
+  <select v-model="contrato.departamentofallecido" :disabled="soloLectura">
+    <option value="">Seleccione un departamento</option>
+
+    <option
+      v-for="departamento in departamentos.departamentos"
+      :key="departamento.iddepartamento"
+      :value="departamento.departamento"
+    >
+      {{ departamento.departamento }}
+    </option>
+  </select>
+</div>
+
+
       <div class="ciudad">
         <label>Ciudad</label>
         <select v-model="model.especie" :disabled="soloLectura">
@@ -50,15 +62,22 @@
         <label>Fecha Nacimiento</label>
         <input
           type="date"
-          v-model="contrato.fechanacimientot"
+          v-model="fechanacimiento"
           :disabled="soloLectura"
         />
       </div>
       <div>
         <label>Parentesco</label>
         <select v-model="contrato.parentesco" :disabled="soloLectura">
-          <option value="Canino">Padre</option>
-          <option value="Felino">Madre</option>
+          <option value="">Seleccione un parentesco</option>
+
+          <option
+            v-for="parentesco in parentescosStore.parentescos"
+            :key="parentesco.idparentesco"
+            :value="parentesco.parentesco"
+          >
+            {{ parentesco.parentesco }}
+          </option>
         </select>
       </div>
       <div>
@@ -76,12 +95,15 @@
 <script setup>
 import { computed } from "vue";
 import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
-
+import { parentescoStore } from "../../../../stores/parametros/parentescoStore.js";
+import { useDepartamentoStore } from "../../../../stores/parametros/departamentos/departamentoStore.js";
+import { limpiarFecha } from "../../../../utils/fechas.js";
 const ordenesStore = useOrdenesStore();
-
+const parentescosStore = useDepartamentoStore();
+const departamentos = parentescoStore();
 const contrato = computed(() => ordenesStore.contrato);
 const soloLectura = computed(() => ordenesStore.modo === "consulta");
-
+const fechanacimiento = limpiarFecha(contrato, "fechanacimientot");
 const model = defineModel();
 </script>
 

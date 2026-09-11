@@ -9,6 +9,7 @@ export const useDepartamentoStore = defineStore("departamento", {
     abrirContratos: false,
     componenteActual: "Informacion",
     departamentos: [],
+    ciudades: [],
   }),
 
   actions: {
@@ -16,15 +17,34 @@ export const useDepartamentoStore = defineStore("departamento", {
       try {
         this.loading = true;
 
-        const response = await sedeServicios.cargarSedes();
+        const response = await departamentoServicios.cargarDepartamentos();
 
-        //console.log("Respuesta sedes:", response.data);
+       // console.log("Respuesta sedes:", response.data);
 
-        this.sedes = response.data;
+        this.departamentos = response.data;
         this.cargado = true;
 
       } catch (error) {
-        //console.error("Error cargando sedes:", error);
+       // console.error("Error cargando sedes:", error);
+        throw error;
+
+      } finally {
+        this.loading = false;
+      }
+    },
+    async cargarCiudades() {
+      try {
+        this.loading = true;
+
+        const response = await departamentoServicios.cargarCiudades();
+
+        console.log("Respuesta sedes:", response.data);
+
+        this.ciudades = response.data;
+        this.cargado = true;
+
+      } catch (error) {
+       // console.error("Error cargando sedes:", error);
         throw error;
 
       } finally {

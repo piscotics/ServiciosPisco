@@ -7,4 +7,4 @@ export default {
   cargarCiudades() {
     return api.get("/api/regional/loadciudad");
   },
-};
+}

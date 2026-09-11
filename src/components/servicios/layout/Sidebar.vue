@@ -101,10 +101,14 @@ import { reactive, ref, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 //import ordenServicios from '../../../services/ordenServicios.js'
 import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
+import { parentescoStore } from "../../../stores/parametros/parentescoStore.js";
+import { useDepartamentoStore } from "../../../stores/parametros/departamentos/departamentoStore.js";
 import Swal from "sweetalert2";
-
+const parentescosStore = parentescoStore();
+const departamentos = useDepartamentoStore();
 const emit = defineEmits(["change-component"]);
 const selected = ref("ContratoComponent");
+const parentescoSeleccionado = ref(null);
 //const contratos = ref([])
 const open = reactive({
   pisco: true,
@@ -159,6 +163,7 @@ const selectComponent = async (component, contrato = null) => {
     idContrato: contrato?.idscontrato ?? null,
   });
 };
+
 onMounted(async () => {
   Swal.fire({
     title: "Cargando órdenes...",
@@ -175,6 +180,9 @@ onMounted(async () => {
 
   try {
     await ordenesStore.cargarOrdenes("2026-03-01", "2026-05-12");
+    await parentescosStore.cargarParentescos();
+    await departamentos.cargarDpartamentos();
+    await departamentos.cargarCiudades();
   } catch (error) {
     Swal.fire({
       icon: "error",

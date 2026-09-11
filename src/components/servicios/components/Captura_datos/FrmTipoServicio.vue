@@ -147,16 +147,12 @@
 import { computed, watch } from "vue";
 import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js";
 import { limpiarFecha } from "../../../../utils/fechas.js";
-//const fechaServicio = limpiarFecha(contrato, "sfecha");
-//const fechaApertura = limpiarFecha(model, "fechaReporte");
-//const fechaAfiliacion = limpiarFecha(model, "fechaAfiliacion");
 const ordenesStore = useOrdenesStore();
 const contrato = computed(() => ordenesStore.contrato);
 const soloLectura = computed(() => ordenesStore.modo === "consulta");
 const model = defineModel();
 const fechaServicio = limpiarFecha(contrato, "sfecha");
 const fechaReporte = limpiarFecha(contrato, "horareporte");
-const fechaAfiliacion = limpiarFecha(model, "fechaAfiliacion");
 </script>
 
 <style scoped>

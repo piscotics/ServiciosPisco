@@ -13,15 +13,16 @@ export default {
   cargarServicio(id) {
     return api.get(`api/services/loadPrestacion/${id}`)
   },
+  cargarPrestacion(idContrato) {
+    return api.get(`api/services/loadPrestacion/${idContrato}`);
+},
 
   guardarServicio(data) {
     return api.post('/servicios', data)
   },
 
 
-  cargarPrestacion(idContrato) {
-    return api.get(`api/services/loadPrestacion/${idContrato}`);
-},
+
 
 cargarOrdenIndividual(idContrato) {
   return api.get(`/api/services/loadServicesByParam?dato=${idContrato}&parametro=ORDEN`);
