@@ -20,7 +20,8 @@ export const parentescoStore = defineStore("parentesco", {
           this.loading = true;
       
           const response = await parentescoServicios.cargarParentescos();
-      
+          //console.log("Respuesta", response.data);
+
           this.parentescos = response.data;
       
         } catch (error) {

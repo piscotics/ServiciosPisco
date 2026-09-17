@@ -103,9 +103,11 @@ import { storeToRefs } from "pinia";
 import { useOrdenesStore } from "../../../stores/OrdenServicios/ordenStore.js";
 import { parentescoStore } from "../../../stores/parametros/parentescoStore.js";
 import { useDepartamentoStore } from "../../../stores/parametros/departamentos/departamentoStore.js";
+import { useCatalogoStore } from "../../../stores/parametros/catalogos/catalogoStore.js";
 import Swal from "sweetalert2";
 const parentescosStore = parentescoStore();
 const departamentos = useDepartamentoStore();
+const catalogos = useCatalogoStore();
 const emit = defineEmits(["change-component"]);
 const selected = ref("ContratoComponent");
 const parentescoSeleccionado = ref(null);
@@ -181,8 +183,9 @@ onMounted(async () => {
   try {
     await ordenesStore.cargarOrdenes("2026-03-01", "2026-05-12");
     await parentescosStore.cargarParentescos();
-    await departamentos.cargarDpartamentos();
+    await departamentos.cargarDepartamentos();
     await departamentos.cargarCiudades();
+    await catalogos.cargarCatalogos();
   } catch (error) {
     Swal.fire({
       icon: "error",

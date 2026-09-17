@@ -18,7 +18,7 @@ export const useTipoPagoStore = defineStore("tipoPagos", {
 
         const response = await tipoPagoServicios.cargarTipoPago();
 
-        console.log("Respuesta tipos de pago:", response.data);
+        console.log("Respuesta", response.data);
 
         this.tipoPagos = response.data;
         this.cargado = true;

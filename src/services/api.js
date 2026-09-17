@@ -5,19 +5,22 @@ const api = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
+  },
+  validateStatus: status => {
+    return status >= 200 && status < 300 || status === 400
   }
 })
 
-// 👉 Interceptor request (ej: token)
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
+
   if (token) {
     config.headers['x-token'] = token
   }
+
   return config
 })
 
-// 👉 Interceptor response (errores globales)
 api.interceptors.response.use(
   response => response,
   error => {

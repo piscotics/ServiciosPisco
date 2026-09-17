@@ -12,41 +12,68 @@ export const useDepartamentoStore = defineStore("departamento", {
     ciudades: [],
   }),
 
+  getters: {
+    ciudadesPorDepartamento: (state) => {
+      return (coddane) => {
+        return state.ciudades.filter(
+          municipio =>
+            String(municipio.coddepartamento) === String(coddane)
+        );
+      };
+    },
+  },
   actions: {
-    async cargarDpartamentos() {
+    async cargarDepartamentos() {
       try {
         this.loading = true;
 
-        const response = await departamentoServicios.cargarDepartamentos();
-
-       // console.log("Respuesta sedes:", response.data);
+        const response =
+          await departamentoServicios.cargarDepartamentos();
 
         this.departamentos = response.data;
         this.cargado = true;
-
       } catch (error) {
-       // console.error("Error cargando sedes:", error);
         throw error;
 
       } finally {
         this.loading = false;
       }
     },
+
     async cargarCiudades() {
       try {
         this.loading = true;
-
+    
         const response = await departamentoServicios.cargarCiudades();
-
-        console.log("Respuesta sedes:", response.data);
-
+    
         this.ciudades = response.data;
         this.cargado = true;
-
+    
       } catch (error) {
-       // console.error("Error cargando sedes:", error);
+    
+        if (Array.isArray(error.response?.data)) {
+        
+          this.ciudades = error.response.data;
+          this.cargado = true;
+    
+          return this.ciudades;
+        }
+    
         throw error;
+    
+      } finally {
+        this.loading = false;
+      }
+    },
 
+    async cargarTodo() {
+      this.loading = true;
+
+      try {
+        await Promise.all([
+          this.cargarDepartamentos(),
+          this.cargarCiudades(),
+        ]);
       } finally {
         this.loading = false;
       }

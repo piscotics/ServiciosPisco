@@ -32,39 +32,43 @@
           :disabled="soloLectura"
         />
       </div>
-      
-<div style="width: 150px">
-  <label>Departamento</label>
 
-  <select v-model="contrato.departamentofallecido" :disabled="soloLectura">
-    <option value="">Seleccione un departamento</option>
+      <div style="width: 150px">
+        <label>Departamento</label>
 
-    <option
-      v-for="departamento in departamentos.departamentos"
-      :key="departamento.iddepartamento"
-      :value="departamento.departamento"
-    >
-      {{ departamento.departamento }}
-    </option>
-  </select>
-</div>
+        <select
+          v-model="contrato.departamentofallecido" :disabled="soloLectura">
+          <option value="">Seleccione un departamento</option>
 
+          <option
+            v-for="departamento in departamentos.departamentos"
+            :key="departamento.iddepartamento"
+            :value="departamento.departamento"
+          >
+            {{ departamento.departamento }}
+          </option>
+        </select>
+      </div>
 
       <div class="ciudad">
         <label>Ciudad</label>
-        <select v-model="model.especie" :disabled="soloLectura">
-          <option value="Canino">Directo Fallecido</option>
+        <select v-model="contrato.ciudadmuerte" :disabled="soloLectura">
+          <option value="">Seleccione una ciudad</option>
+
+          <option
+            v-for="ciudad in ciudadesFiltradas"
+            :key="ciudad.idmunicipio"
+            :value="ciudad.municipio"
+          >
+            {{ ciudad.municipio }}
+          </option>
         </select>
       </div>
     </div>
     <div class="field">
       <div>
         <label>Fecha Nacimiento</label>
-        <input
-          type="date"
-          v-model="fechanacimiento"
-          :disabled="soloLectura"
-        />
+        <input type="date" v-model="fechanacimiento" :disabled="soloLectura" />
       </div>
       <div>
         <label>Parentesco</label>
@@ -98,13 +102,40 @@ import { useOrdenesStore } from "../../../../stores/OrdenServicios/ordenStore.js
 import { parentescoStore } from "../../../../stores/parametros/parentescoStore.js";
 import { useDepartamentoStore } from "../../../../stores/parametros/departamentos/departamentoStore.js";
 import { limpiarFecha } from "../../../../utils/fechas.js";
+
 const ordenesStore = useOrdenesStore();
-const parentescosStore = useDepartamentoStore();
-const departamentos = parentescoStore();
+
+const parentescosStore = parentescoStore();
+const departamentos = useDepartamentoStore();
+
 const contrato = computed(() => ordenesStore.contrato);
+
 const soloLectura = computed(() => ordenesStore.modo === "consulta");
+
 const fechanacimiento = limpiarFecha(contrato, "fechanacimientot");
+
 const model = defineModel();
+0
+const ciudadesFiltradas = computed(() => {
+  const departamento = departamentos.departamentos.find(
+    d => d.departamento === contrato.value.departamentofallecido
+  );
+
+  if (!departamento) return [];
+
+//  console.log("🔑 Código departamento:", departamento.coddane);
+
+  const ciudades = departamentos.ciudadesPorDepartamento(
+    departamento.coddane
+  );
+
+  //console.log("🏙️ Ciudades encontradas:", ciudades);
+
+  return ciudades;
+});
+
+
+
 </script>
 
 <style scoped>
